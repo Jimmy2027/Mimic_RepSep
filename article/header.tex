@@ -2,14 +2,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
-	\geometry{
-		top=1cm,
-		bottom=1.5cm,
-		left=2cm,
-		right=2cm,
-		includehead,
-		includefoot,
-	}
+\geometry{
+    top=1cm,
+    bottom=1.5cm,
+    left=4.5cm,
+    right=4.5cm,
+    includehead,
+    includefoot,
+}
 \usepackage{lastpage}
 \usepackage[font={small,sf},labelfont={bf}]{caption}
 \usepackage{nameref}
@@ -19,10 +19,40 @@
 
 \input{common_header.tex}
 
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\usepackage{amsfonts}
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\newcommand{\xset}{\mathbb{X}}
+\newcommand{\xseti}{\mathbb{X}^{(i)}}
+\newcommand{\approxdistri}{q_{\phi}(\textbf{z}|\xseti)}
+\newcommand{\approxdistr}{q_{\phi}(\textbf{z}|\xset)}
+\newcommand{\truedistr}{p_{\theta}(\textbf{z}|\xseti)}
+\newcommand{\elbo}{\mathcal{L}(\theta, \phi; \xseti)}
+\newcommand{\xsubset}{\mathbb{X}_k}
+\newcommand{\lmopoe}{\mathcal{L}_{MoPoE}(\theta, \phi; \xset)}
+\newcommand{\powerset}{\mathcal{P}(\xset)}
+
+%experiments variables
+\newcommand{\imgsize}{(256, 256)}
+\newcommand{\minwordocc}{3 }
+\newcommand{\sentlen}{128 }
+\newcommand{\learningrate}{0.001}
+
 % Article-specific configuration
 \begin{pythontexcustomcode}[begin]{py}
-DOC_STYLE="article/main.conf"
-pytex.add_dependencies(DOC_STYLE)
+    DOC_STYLE="article/main.conf"
+    pytex.add_dependencies(DOC_STYLE)
 \end{pythontexcustomcode}
 
 %VARIABLES
@@ -34,68 +64,68 @@ pytex.add_dependencies(DOC_STYLE)
 \makeatother
 
 %HEADER/FOOTER
-\usepackage{fancyhdr}
-	\pagestyle{fancy}
-	\renewcommand{\headrulewidth}{0.0pt}
-	\renewcommand{\footrulewidth}{1pt}
-	\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
-
-	\lhead{}
-	\chead{\small\textsf{\textcolor{Gray}{\mytitle}}}
-	\rhead{}
-
-	\lfoot{}
-	\cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
-	\rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
-
-	\fancypagestyle{firstpage}{
-		\fancyhf{}
-		\lfoot{}
-		\cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
-		\rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
-	}
-
-\usepackage{etoolbox}
-	\makeatletter
-		\patchcmd{\footrule}{\hrule}{\color{Gray}\hrule}{}{}
-	\makeatother
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0.0pt}
+%\renewcommand{\footrulewidth}{1pt}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%
+%\lhead{}
+%\chead{\small\textsf{\textcolor{Gray}{\mytitle}}}
+%\rhead{}
+%
+%\lfoot{}
+%\cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
+%\rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
+%
+%\fancypagestyle{firstpage}{
+%    \fancyhf{}
+%    \lfoot{}
+%    \cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
+%    \rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
+%}
+%
+%\usepackage{etoolbox}
+%\makeatletter
+%\patchcmd{\footrule}{\hrule}{\color{Gray}\hrule}{}{}
+%\makeatother
 
 
 %TITLE
-\newcommand{\authorstyle}[1]{{\large\bfseries\textsf{\color{Gray}#1}}}
-\newcommand{\institution}[1]{{\footnotesize\textsf{\color{Black}#1}}}
-\usepackage{titling}
-\newcommand{\HorRule}{\color{Gray}\rule{\linewidth}{1pt}}
-\pretitle{
-	\vspace{-6em} %move title section up
-	\HorRule %horizontal rule abve title
-	\vspace{1.2em}
-	\huge\usefont{T1}{phv}{b}{n}
-	\color{Black} %title color
-}
-\posttitle{\par\vskip 0.5em}
-\preauthor{}
-\postauthor{
-	\vspace{1.2em}
-	\par\HorRule %horizontal rule below title
-	\vspace{-1em}
-}
+%\newcommand{\authorstyle}[1]{{\large\bfseries\textsf{\color{Gray}#1}}}
+%\newcommand{\institution}[1]{{\footnotesize\textsf{\color{Black}#1}}}
+%\usepackage{titling}
+%\newcommand{\HorRule}{\color{Gray}\rule{\linewidth}{1pt}}
+%\pretitle{
+%    \vspace{-6em} %move title section up
+%    \HorRule %horizontal rule abve title
+%    \vspace{1.2em}
+%    \huge\usefont{T1}{phv}{b}{n}
+%    \color{Black} %title color
+%}
+%\posttitle{\par\vskip 0.5em}
+%\preauthor{}
+%\postauthor{
+%    \vspace{1.2em}
+%    \par\HorRule %horizontal rule below title
+%    \vspace{-1em}
+%}
 
 
 % Sections
 % make sure the first paragraph of a section is not indented
 \makeatletter
-	\let\@afterindenttrue\@afterindentfalse
-	\@afterindentfalse
+\let\@afterindenttrue\@afterindentfalse
+\@afterindentfalse
 \makeatother
 
-\usepackage[explicit]{titlesec}
-\titleformat{\section}[hang]{\Large\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
-\titlespacing{\section}{0em}{1.5em}{0.4em}
-\titleformat{\subsection}[hang]{\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
-\titlespacing{\subsection}{0em}{1em}{0.2em}
-\titleformat{\subsubsection}[hang]{\footnotesize\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
-\titlespacing{\subsubsection}{0em}{0.75em}{0em}
+%\usepackage[explicit]{titlesec}
+%\titleformat{\section}[hang]{\Large\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
+%\titlespacing{\section}{0em}{1.5em}{0.4em}
+%\titleformat{\subsection}[hang]{\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
+%\titlespacing{\subsection}{0em}{1em}{0.2em}
+%\titleformat{\subsubsection}[hang]{\footnotesize\usefont{T1}{phv}{b}{n}\color{Black}}{}{0em}{#1}%
+%\titlespacing{\subsubsection}{0em}{0.75em}{0em}
 
 
 % Grey definitions.
@@ -105,11 +135,13 @@ pytex.add_dependencies(DOC_STYLE)
 \definecolor{vlg}{gray}{0.9}
 
 % Body
-\setlength{\columnsep}{7mm}
+%\setlength{\columnsep}{7mm}
 
 % Boilerplate visual style improvements
 \newcommand{\niceus}{\texttt{\_}}
 
 %BIBLIOGRAPHY
-%\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex}
-%\addbibresource{bib.bib}
+% see https://mirror.foobar.to/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf for available styles
+\usepackage[backend=bibtex,style=numeric,natbib=true]{biblatex}
+\addbibresource{bib.bib}
+\addbibresource{old_bib.bib}

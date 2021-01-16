@@ -1,15 +1,34 @@
-\section{Filler Section}
+\section{Introduction}
 
-	Lorem ipsum dolor sit amet, purto iracundia ei duo, cum primis definitiones in.
-	Mea ut eripuit evertitur, commune detraxit gloriatur eu vis.
-	Est ad unum deleniti, ut cum liber aeque nostrum.
-	Ne aperiam accusata his, no tractatos intellegat intellegam vel.
-	Qui ne agam populo voluptaria, no nibh semper explicari mei.
-	
-	Ad mei aeterno sadipscing, id duo sonet vocent numquam.
-	Ex nec dicant albucius. Sed doming cotidieque at, ea per modus dicit, fuisset adipisci mel te.
-	Causae graecis reformidans te has, cu pri commune salutandi, eum id sumo laoreet.
-	Vim modo utamur aliquam an, mutat rebum integre ex nec, qui id munere iracundia constituam.
-	At nam quis assum veniam.	
+	Training a deep-learning model in a supervised manner consists of updating its parameters based on observations of a large amount of labeled data.
+	Manually creating annotations of sufficient training examples for the training of the model is often infeasible, since it requires manual expert input.
+	In the medical domain especially, human labeled data is expensive to acquire and thus very scarce.
+	A generative model, that can learn embeddings of the data without the need for labels, enjoys a much bigger variety of possible training data.
+	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} in particular is a popular generative model, which consists of an encoder that maps the input to a latent distribution from which the decoder part can sample to reconstruct the input.
+
+	Clinical data comes in many modalities, such as images, text reports and electronic health records.
+	A generative model that can leverage all of the modalities could be used for tasks such as generating a text report when given images of a patient, generating an image of another angle from an input image or data classification.
+	Generating a text report could relieve doctors from a tedious and time consuming task and accurate classification of sicknesses could accompany their judgement.
+	The generation of images from multiple angles could, in theory, avoid having to take multiple scans, which is costly and time-consuming.
+
+	In this work, we apply the generalized multimodal ELBO, proposed in \cite{thomas_gener-ELBO}, to train a self-supervised, generative model on clinical data from the MIMIC-CXR Database \cite{johnson2019mimic}.
+
+	In \cite{thomas_gener-ELBO}, the authors present a "Mixture-of-Products-of-Experts-VAE" (MoPoE-VAE) which combines the Product-of-Experts (PoE) from \cite{wu2018multimodal} and the Mixture-of-Experts (MoE) from \cite{shi2019variational}.
+	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} is a popular generative model, which consists of an encoder that maps the input to a latent distribution from which the decoder part can sample to reconstruct the input.
+	For multiple modalities, the latent representation need to represent both modality-specific and shared factors in a way such that the decoder generates semantically coherent samples across modalities \cite{shi2019variational}.
+	By combining the PoE and the MoE, the authors of \cite{thomas_gener-ELBO} are able to limit the drawbacks of both methods, while profiting from their respective advantages.
+	\cite{thomas_gener-ELBO} describes that both methods merely differ in their choice of joint posterior approximation functions, which can be subsumed under the class of abstract mean functions.
+	The multimodal variational autoencoder (MVAE \cite{wu2018multimodal}) uses a geometric mean, which enables learning a sharp posterior.
+	While resulting in a good approximation of the joint distribution, it struggles in optimizing the individual experts (\cite{wu2018multimodal}, p.3).
+	The Mixture-of-Experts multimodal variational autoencoder (MMVAE, \cite{shi2019variational}) applies an arithmetic mean, allowing a better learning of the unimodal pairwise conditional distributions.
+	It optimizes individual experts well, but is not able to learn a distribution that is sharper than any of its experts.
+	The MoE is optimizing for conditional distributions based on the unimodal posterior approximations, while the PoE is optimizing for the approximation of the joint probability distribution.
+	The MoPoE-VAE takes advantage of both methods by first applying the geometric mean (PoE) on all subsets of modalities to get the unimodal posterior approximations, and then combining them using an arithmetic mean (MoE).
+
+	In an extensive list of experiments, the authors of \cite{thomas_gener-ELBO} demonstrate the advantage of their proposed method compared to state-of-the-art models in self- supervised, generative learning tasks.
+	In particular, they evaluate on three different datasets, the PolyMNIST \cite{thomas_gener-ELBO}, the MNIST-SVHN-Text \cite{thomas_multimodal} and the Celeba dataset.
+	All datasets contain more than one modality.
+
+
 
 
