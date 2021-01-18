@@ -1,3 +1,5 @@
 {
-  "experiment_df_path": "~/src/MIMIC/mimic/experiments_dataframe.csv"
+  "experiment_df_path": "~/src/MIMIC/mimic/experiments_dataframe.csv",
+  "clf_exp_df_path": "~/src/MIMIC/mimic/clf_experiments_dataframe.csv",
+  "mimic_dir": "~/src/MIMIC/mimic"
 }

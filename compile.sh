@@ -3,7 +3,7 @@
 TARGET="${1}"
 WHITELIST="
 
-	old_article.tex
+	article.tex
 
 	"
 

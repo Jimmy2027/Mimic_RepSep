@@ -1,4 +1,4 @@
-# HK, 16.01.21
+# HK, 17.01.21
 import json
 import pandas as pd
 from pathlib import Path
@@ -11,7 +11,7 @@ labels = ['Lung Opacity', 'Pleural Effusion', 'Support Devices']
 with open(config_path, 'r') as json_file:
     config = json.load(json_file)
 
-experiment_df = pd.read_csv(os.path.expanduser(config['experiment_df_path']))
+experiment_df = pd.read_csv(os.path.expanduser(config['clf_exp_df_path']))
 
 lr_eval_columns = [col for col in experiment_df.columns if col.startswith('lr_eval_')]
 
