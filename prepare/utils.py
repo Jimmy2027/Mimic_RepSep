@@ -18,3 +18,12 @@ def get_config() -> dict:
     with open(config_path, 'r') as json_file:
         config = json.load(json_file)
     return config
+
+
+MODALITIES = ['PA', 'Lateral', 'text']
+LABELS = ['Lung Opacity', 'Pleural Effusion', 'Support Devices']
+MOD_MAPPING = {
+    'PA': 'm1',
+    'Lateral': 'm2',
+    'text': 'm3'
+}
