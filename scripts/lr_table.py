@@ -15,11 +15,12 @@ experiment_df = pd.read_csv(os.path.expanduser(config['experiment_df_path']))
 
 lr_eval_columns = [col for col in experiment_df.columns if col.startswith('lr_eval_')]
 
-experiment_df = experiment_df.dropna(subset=[*lr_eval_columns, 'rec_weight_m3'])
+experiment_df = experiment_df.dropna(subset=[*lr_eval_columns])
 lr_eval_avg = experiment_df[lr_eval_columns].apply(pd.DataFrame.describe, axis=1)
 best_idx = lr_eval_avg[['mean']].idxmax().item()
 
-# iloc uses integer location and does not correspond to true index: https://stackoverflow.com/questions/49960597/pandas-using-iloc-to-retrieve-data-does-not-match-input-index
+# iloc uses integer location and does not correspond to true index:
+# https://stackoverflow.com/questions/49960597/pandas-using-iloc-to-retrieve-data-does-not-match-input-index
 best_row = experiment_df.loc[best_idx]
 
 mods = {'PA': 'F', 'Lateral': 'L', 'text': 'T'}
