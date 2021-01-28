@@ -1,5 +1,17 @@
 \section{Results}
 
+The random performance lies at \py{boilerplate.read_rand_pref()}.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{data/Lateral_PA}
+    \caption{
+        Lateral and PA as conditioner.
+    }
+    \label{fig:fig_cond_latPA}
+\end{figure}
+
+
 \py{
     pytex_tab(
     script='scripts/lr_table.py',
@@ -7,6 +19,29 @@
     caption='Evaluation of the latent representation.',
     data='data/JogB.tsv',
     options_pre='\\centering \\resizebox{0.9\\textwidth}{!}{',
+    options_post='}',
+    )
+}
+\vspace{0.4em}
+
+\py{
+    pytex_tab(
+    script='scripts/clf_table.py',
+    label='clf_table',
+    caption='Evaluation of the classifiers.',
+    data='data/JogB.tsv',
+    options_pre='\\centering \\resizebox{0.5\\textwidth}{!}{',
+    options_post='}',
+    )
+}
+\vspace{0.4em}
+
+\py{
+    pytex_tab(
+    script='scripts/gen_eval_table.py',
+    label='gen_eval_table',
+    caption='Evaluation of the generation coherence.',
+    options_pre='\\centering \\resizebox{1.1\\textwidth}{!}{',
     options_post='}',
     )
 }
