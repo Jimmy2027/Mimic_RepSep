@@ -16,5 +16,4 @@ def fstatistic(factor,
 	model='Q("Volume Change Factor") ~ Processing*Template'
 	ols = smf.ols(model, df).fit()
 	anova = sm.stats.anova_lm(ols, typ=2)
-	tex = inline_anova(anova, factor, 'tex', **kwargs)
-	return tex
+	return inline_anova(anova, factor, 'tex', **kwargs)

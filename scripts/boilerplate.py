@@ -5,7 +5,7 @@ import json
 from utils import CLF_RESULTS_PATH
 
 
-def read_rand_pref():
+def read_rand_perf():
     clf_results_path = CLF_RESULTS_PATH
 
     with open(clf_results_path, 'r') as json_file:
@@ -14,4 +14,4 @@ def read_rand_pref():
 
 
 if __name__ == '__main__':
-    read_rand_pref()
+    read_rand_perf()

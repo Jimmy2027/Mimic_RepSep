@@ -1,5 +1,6 @@
 {
   "experiment_df_path": "~/src/MIMIC/mimic/experiments_dataframe.csv",
   "clf_exp_df_path": "~/src/MIMIC/mimic/clf_experiments_dataframe.csv",
-  "mimic_dir": "~/src/MIMIC/mimic"
+  "mimic_dir": "~/src/MIMIC/mimic",
+  "experiment_dir": "~/docsrc/mimic_repsep/data/vae_model/weighted_sampler-False_class_dim-64_rec_weight_m3-0.9_feature_extractor_img-resnet_2021_02_03_22_06_19_931255"
 }

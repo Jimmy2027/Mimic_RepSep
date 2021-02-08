@@ -11,17 +11,18 @@ labels = ['Lung Opacity', 'Pleural Effusion', 'Support Devices']
 with open(config_path, 'r') as json_file:
     config = json.load(json_file)
 
-experiment_df = pd.read_csv(os.path.expanduser(config['experiment_df_path']))
+experiment_uid = Path(config['experiment_dir']).name
+
+experiment_df = pd.read_csv(Path(os.getcwd()) / 'data/experiments_dataframe.csv')
+
+# experiment_df = pd.read_csv(os.path.expanduser(config['experiment_df_path']))
 
 lr_eval_columns = [col for col in experiment_df.columns if col.startswith('lr_eval_')]
 
-experiment_df = experiment_df.dropna(subset=[*lr_eval_columns])
-lr_eval_avg = experiment_df[lr_eval_columns].apply(pd.DataFrame.describe, axis=1)
-best_idx = lr_eval_avg[['mean']].idxmax().item()
+best_row = experiment_df.loc[experiment_df['experiment_uid'] == experiment_uid]
 
-# iloc uses integer location and does not correspond to true index:
-# https://stackoverflow.com/questions/49960597/pandas-using-iloc-to-retrieve-data-does-not-match-input-index
-best_row = experiment_df.loc[best_idx]
+print(best_row)
+adfsg
 
 mods = {'PA': 'F', 'Lateral': 'L', 'text': 'T'}
 

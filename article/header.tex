@@ -17,6 +17,7 @@
 \usepackage[all]{nowidow}
 \usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
+\usepackage{bm}
 
 
 \input{common_header.tex}
@@ -65,53 +66,13 @@
 \let\mydate\@date
 \makeatother
 
-%HEADER/FOOTER
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
-%\renewcommand{\headrulewidth}{0.0pt}
-%\renewcommand{\footrulewidth}{1pt}
-%\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
-%
-%\lhead{}
-%\chead{\small\textsf{\textcolor{Gray}{\mytitle}}}
-%\rhead{}
-%
-%\lfoot{}
-%\cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
-%\rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
-%
-%\fancypagestyle{firstpage}{
-%    \fancyhf{}
-%    \lfoot{}
-%    \cfoot{\footnotesize\textsf{\textcolor{Gray}{\today}}}
-%    \rfoot{\footnotesize\textsf{\textcolor{Gray}{Page} \thepage\ \textcolor{Gray}{of \pageref{LastPage}}}}
-%}
-%
-%\usepackage{etoolbox}
-%\makeatletter
-%\patchcmd{\footrule}{\hrule}{\color{Gray}\hrule}{}{}
-%\makeatother
-
 
 %TITLE
-%\newcommand{\authorstyle}[1]{{\large\bfseries\textsf{\color{Gray}#1}}}
-%\newcommand{\institution}[1]{{\footnotesize\textsf{\color{Black}#1}}}
-%\usepackage{titling}
-%\newcommand{\HorRule}{\color{Gray}\rule{\linewidth}{1pt}}
-%\pretitle{
-%    \vspace{-6em} %move title section up
-%    \HorRule %horizontal rule abve title
-%    \vspace{1.2em}
-%    \huge\usefont{T1}{phv}{b}{n}
-%    \color{Black} %title color
-%}
-%\posttitle{\par\vskip 0.5em}
-%\preauthor{}
-%\postauthor{
-%    \vspace{1.2em}
-%    \par\HorRule %horizontal rule below title
-%    \vspace{-1em}
-%}
+\usepackage{authblk}
+\renewcommand\Affilfont{\itshape\small}
+
+\newcommand{\authorstyle}[1]{{\large\bfseries\textsf{\color{Gray}#1}}}
+
 
 
 % Sections
@@ -135,9 +96,6 @@
 \definecolor{mg}{gray}{0.55}
 \definecolor{lg}{gray}{0.73}
 \definecolor{vlg}{gray}{0.9}
-
-% Body
-%\setlength{\columnsep}{7mm}
 
 % Boilerplate visual style improvements
 \newcommand{\niceus}{\texttt{\_}}

@@ -43,7 +43,7 @@ def translate(batch, list_labels: list) -> list:
 def test_clfs(flags, img_size: int, text_encoding: str):
     flags.img_size = img_size
     flags.text_encoding = text_encoding
-    # set clf_training to true to get img transformations from dataset. Fro the same reason set flags.modality to PA
+    # set clf_training to true to get img transformations from dataset. For the same reason set flags.modality to PA
     flags.modality = 'PA'
     mimic_test = Mimic(flags, LABELS, split='eval', clf_training=True)
     flags.batch_size = len(mimic_test)
@@ -115,13 +115,15 @@ if __name__ == '__main__':
     mimic_config_path = Path(os.getcwd()) / f'prepare/mimic_configs/{get_config_str()}.json'
 
     FLAGS = update_flags_with_config(mimic_config_path)
+    FLAGS.dir_clf = Path(os.getcwd()) / 'data/clfs/trained_classifiers_final'
     FLAGS.reduce_lr_on_plateau = True
     FLAGS.fixed_extractor = True
+    FLAGS.normalization = False
     FLAGS = expand_paths(FLAGS)
     use_cuda = torch.cuda.is_available()
     FLAGS.device = torch.device('cuda' if use_cuda else 'cpu')
 
-    results = test_clfs(FLAGS, 256, 'word')
+    results = test_clfs(FLAGS, 128, 'word')
     out_path = f'{FLAGS.dir_clf}/clf_test_results.json'
     log.info(f'Saving classifier test results to {out_path}')
     with open(out_path, 'w') as outfile:
