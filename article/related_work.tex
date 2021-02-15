@@ -8,7 +8,7 @@ Recent work has shown that existing techniques can model fairly complex datasets
 However, when applied to complex datasets of natural images, VAE models tend to produce unrealistic, blurred samples \cite{zhao2017towards, dosovitskiy2016generating}.
 In \cite{zhao2017towards}, the authors show that the blurriness of the generated samples effectively comes from the choice of the prior.
 According to the objective of the VAE, the model will attempt to approximate the posterior $\approxdistr$ with a fixed variance Gaussian.
-However, most natural images distributions are not Gaussian distributed, such that if $x$ is a likely sample, $x + \mathcal{N}(0, I/2)$ is not.
+However, most natural image distributions do not follow a Gaussian distribution, such that if $x$ is a likely sample, $x + \mathcal{N}(0, I/2)$ is not.
 Shengjia Zhao et al. \cite{zhao2017towards} show that using a Gaussian prior, the optimal reconstruction is an average of $\approxdistr$ and the reconstruction loss is measured by $\sum _i Var _{\approxdistr} [x_i]$.
 For image data, this error is reflected by blurry samples.\\
 In this work, we will show that our method suffers from the same blurriness in the generated samples.
