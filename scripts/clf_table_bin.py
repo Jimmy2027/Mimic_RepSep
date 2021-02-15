@@ -1,0 +1,5 @@
+# HK, 10.02.21
+from scripts.clf_table_utils import print_clf_table
+
+
+print_clf_table(bin_labels=True)

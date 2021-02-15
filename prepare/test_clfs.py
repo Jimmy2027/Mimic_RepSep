@@ -45,7 +45,7 @@ def test_clfs(flags, img_size: int, text_encoding: str):
     flags.text_encoding = text_encoding
     # set clf_training to true to get img transformations from dataset. For the same reason set flags.modality to PA
     flags.modality = 'PA'
-    mimic_test = Mimic(flags, LABELS, split='eval', clf_training=True)
+    mimic_test = Mimic(flags, LABELS, split='eval')
     flags.batch_size = len(mimic_test)
     clfs = load_clfs(FLAGS)
 
@@ -89,16 +89,16 @@ def test_clfs(flags, img_size: int, text_encoding: str):
 
 
 def load_clfs(args) -> dict:
-    dir_clf = f'{FLAGS.dir_clf}/Mimic{FLAGS.img_size}_{FLAGS.img_clf_type}'
     clfs = {}
     for modality in MODALITIES:
-        print(f"{dir_clf}/clf_{MOD_MAPPING[modality]}*")
-        print(glob.glob(f"{dir_clf}/clf_{MOD_MAPPING[modality]}*"))
-        clf_path = glob.glob(f"{dir_clf}/clf_{MOD_MAPPING[modality]}*")[0]
+        log.info(f'Loading {modality} classifier.')
         if modality in ['PA', 'Lateral']:
-            clf = ClfImg(args, LABELS) if args.img_clf_type == 'resnet' else CheXNet(
-                len(LABELS))
+            dir_clf = f'{args.dir_clf}/Mimic{args.img_size}_{args.img_clf_type}'
+            clf_path = glob.glob(f"{dir_clf}/clf_{MOD_MAPPING[modality]}*")[0]
+            clf = ClfImg(args, LABELS) if args.img_clf_type == 'resnet' else CheXNet(len(LABELS))
         elif modality == 'text':
+            dir_clf = args.dir_clf
+            clf_path = glob.glob(f"{dir_clf}/clf_{MOD_MAPPING[modality]}*")[0]
             clf = ClfText(args, LABELS)
         else:
             raise NotImplementedError
@@ -124,6 +124,7 @@ if __name__ == '__main__':
     FLAGS.device = torch.device('cuda' if use_cuda else 'cpu')
 
     results = test_clfs(FLAGS, 128, 'word')
+
     out_path = f'{FLAGS.dir_clf}/clf_test_results.json'
     log.info(f'Saving classifier test results to {out_path}')
     with open(out_path, 'w') as outfile:

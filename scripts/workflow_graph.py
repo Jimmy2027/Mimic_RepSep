@@ -2,13 +2,15 @@
 from scripts import tikz
 from dataclasses import dataclass
 
+IMG_SIZE = 128
+IMG_ENCODER = 'ResNet'
 
 @dataclass
 class MMVAENodes:
     input_img: str = 'img dataset'
     input_text: str = 'text dataset'
     n1_text: str = 'text encoder'
-    n1_img: str = 'densenet'
+    n1_img: str = IMG_ENCODER
     n2: str = 'lin. feature compressor'
     conc_latents: str = 'conc. latents for every mod in subset of powerset'
     poe: str = r'fuse with PoE:\\ $\mu_s = \sum_i ^{Subset}  \mu_i \cdot logvar^{-1}$\\$logvar_s = \sum_i^{Subset}\frac{1}{logvar_i}$'
@@ -55,7 +57,7 @@ pic.set_node(text=nodes.batch, options='other, below of=moe, yshift=-1.5cm, alig
 
 pic.set_line('input_text', 'n1_text', label='[bs, sent len]', label_pos='west')
 pic.set_line('n1_text', 'n2', label='[bs, 640, 1]', label_pos='west')
-pic.set_line('input_img', 'n1_img', label='[bs, 256, 256]', label_pos='east')
+pic.set_line('input_img', 'n1_img', label=f'[bs, {IMG_SIZE}, {IMG_SIZE}]', label_pos='east')
 pic.set_line('n1_img', 'n2', label='[bs, 320, 1]', label_pos='east')
 pic.set_line('n2', 'conc_latents', label='mu\_content: [bs, class\_dim]', label_pos='south')
 pic.set_line('n2', 'conc_latents', label='logvar\_content: [bs, class\_dim]', edge_options='bend right=10',
@@ -68,7 +70,7 @@ pic.set_line('moe', 'n3_text', label=r'[bs, class\_dim]', label_pos='south', edg
 pic.set_line('moe', 'n3_img', label=r'[bs, class\_dim]', label_pos='south', edge_options='bend right=20')
 pic.set_line('n3_text', 'n4_text', label=r'[bs, 640]', label_pos='west')
 pic.set_line('n3_img', 'n4_img', label=r'[bs, 320]', label_pos='east')
-pic.set_line('n4_img', 'n5', label=r'[bs, 1, 256, 256]', label_pos='east')
+pic.set_line('n4_img', 'n5', label=f'[bs, 1, {IMG_SIZE}, {IMG_SIZE}]', label_pos='east')
 pic.set_line('n4_text', 'n5', label=r'[bs, len sent, vocab size]', label_pos='west')
 pic.set_line('n5', 'n6')
 pic.set_line('batch', 'n6')

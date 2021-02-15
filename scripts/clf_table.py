@@ -2,7 +2,7 @@ import json
 
 import pandas as pd
 
-from utils import CLF_RESULTS_PATH
+from scripts.utils import CLF_RESULTS_PATH
 
 clf_results_path = CLF_RESULTS_PATH
 

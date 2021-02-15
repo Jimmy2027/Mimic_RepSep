@@ -4,20 +4,19 @@
 	Manually creating annotations of sufficient training examples for the training of the model is often infeasible, since it requires manual expert input.
 	In the medical domain especially, human labeled data is expensive to acquire and thus very scarce.
 	A generative model, that can learn embeddings of the data without the need for labels, enjoys a much bigger variety of possible training data.
-	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} in particular is a popular generative model, which consists of an encoder that maps the input to a learned latent distribution from which the decoder part can sample to reconstruct the input.
+	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} in particular is a popular generative model, which consists of an encoder that maps the input to a learned latent distribution from which the decoder part samples to reconstruct the input.
 
 	Clinical data comes in many modalities, such as images, text reports and electronic health records.
 	A generative model that can leverage all of the modalities could be used for tasks such as generating a text report when given images of a patient, generating an image of another angle from an input image or data classification.
 	Generating a text report could relieve doctors from a tedious and time consuming task and accurate classification of sicknesses could accompany their judgement.
-	The generation of images from multiple angles could, in theory, avoid having to take multiple scans, which is costly and time-consuming.
+	The generation of images from multiple angles could, in theory, avoid having to take multiple scans, which is costly, time-consuming and harmful in the case of X-ray scans.
 
 	In this work, we apply the generalized multimodal ELBO, proposed in \cite{thomas_gener-ELBO}, to train a self-supervised, generative model on clinical data from the MIMIC-CXR Database \cite{johnson2019mimic}.
 
 	In \cite{thomas_gener-ELBO}, the authors present a "Mixture-of-Products-of-Experts-VAE" (MoPoE-VAE) which combines the Product-of-Experts (PoE) from \cite{wu2018multimodal} and the Mixture-of-Experts (MoE) from \cite{shi2019variational}.
-% todo introduce both papers: check literature review from thomas
 	For multiple modalities, the latent representation need to represent both modality-specific and shared factors in a way such that the decoder generates semantically coherent samples across modalities \cite{shi2019variational}.
 	By combining the PoE and the MoE, the authors of \cite{thomas_gener-ELBO} are able to limit the drawbacks of both methods, while profiting from their respective advantages.
-	\cite{thomas_gener-ELBO} describes that both methods merely differ in their choice of joint posterior approximation functions, which can be subsumed under the class of abstract mean functions.
+	\cite{thomas_gener-ELBO} describes that the PoE and the MoE methods merely differ in their choice of joint posterior approximation functions, which can be subsumed under the class of abstract mean functions.
 	The multimodal variational autoencoder (MVAE \cite{wu2018multimodal}) uses a geometric mean, which enables learning a sharp posterior.
 	While resulting in a good approximation of the joint distribution, it struggles in optimizing the individual experts (\cite{wu2018multimodal}, p.3).
 	The Mixture-of-Experts multimodal variational autoencoder (MMVAE, \cite{shi2019variational}) applies an arithmetic mean, allowing a better learning of the unimodal pairwise conditional distributions.

@@ -20,5 +20,6 @@ else
 	pdflatex -shell-escape "${TARGET}.tex" || { echo "pdflatex failed after PythonTeX"; exit $ERRCODE; }
 	bibtex "${TARGET}" || { echo "bibtex failed"; exit $ERRCODE; }
 	pdflatex -shell-escape "${TARGET}.tex" || { echo "pdflatex failed after bibtex"; exit $ERRCODE; }
-	pdflatex -shell-escape "${TARGET}.tex"
+	pdflatex -shell-escape "${TARGET}.tex" && python scripts/mv_article_pdf.py || exit 1
 fi
+

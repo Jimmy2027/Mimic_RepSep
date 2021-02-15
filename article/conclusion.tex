@@ -1,0 +1,22 @@
+\section{Conclusion}
+In this work, we applied a multi-modal generative model on clinical data to evaluate its performance on direct applications in the medical field.
+
+While our experiments show promising results, they indicate that the task is extremely challenging with significant scope for improvement.
+
+Features in medical scans that are characteristic of most sicknesses are often smaller details that get lost in the blurriness of the generated samples.
+However, the latent representation that the MoPoE learns when learning to reproduce the data is meaningful in the sense that it can be separated into the different classes the data belong to.
+
+
+While the learning of this representation was done in a supervised manner, the evaluation of the separability used handcrafted labels.
+Having showed that the latent space learned by the MoPoE is separable, it would be interesting to see if it can be separated in an unsupervised manner such as a clustering method.
+This would make the MoPoE a fully unsupervised classifier that we believe would perform better than a clustering method on raw, high dimensional medical data.
+The more complex loss function from our method can incorporate more prior knowledge and impose regularization.
+
+
+We have shown that the text modality provides the best separability of the latent representation but is also the most difficult to generate.
+This indicates that further research into the text decoder architecture could increase the performance of the method.
+
+
+
+We argue that our method is a successful first step into creating an unsupervised method that will find applications in the medical domain such as classification of sicknesses, generating text reports from medical data and generating scans from multiple angles.
+We believe that the method can be improved with some further fine-tuning, for example in the choice of the abstract mean function for modeling the joint posterior or in the choice of the encoder-decoder architectures.

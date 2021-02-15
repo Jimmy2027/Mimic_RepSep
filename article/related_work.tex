@@ -1,0 +1,23 @@
+\section{Related Work}
+
+
+This work builds on existing work on self-supervised generative models as well as research into leveraging the multi-modal nature of most medical data.
+
+The VAE is a popular generative model that has made remarkable progress in recent years.
+Recent work has shown that existing techniques can model fairly complex datasets such as natural images and speech \cite{kingma2015variational, gulrajani2016pixelvae, bowman2015generating}.
+However, when applied to complex datasets of natural images, VAE models tend to produce unrealistic, blurred samples \cite{zhao2017towards, dosovitskiy2016generating}.
+In \cite{zhao2017towards}, the authors show that the blurriness of the generated samples effectively comes from the choice of the prior.
+According to the objective of the VAE, the model will attempt to approximate the posterior $\approxdistr$ with a fixed variance Gaussian.
+However, most natural images distributions are not Gaussian distributed, such that if $x$ is a likely sample, $x + \mathcal{N}(0, I/2)$ is not.
+Shengjia Zhao et al. \cite{zhao2017towards} show that using a Gaussian prior, the optimal reconstruction is an average of $\approxdistr$ and the reconstruction loss is measured by $\sum _i Var _{\approxdistr} [x_i]$.
+For image data, this error is reflected by blurry samples.\\
+In this work, we will show that our method suffers from the same blurriness in the generated samples.
+In future work, we would like to evaluate other choices for the prior.
+
+Other work has been done in the direction of finding direct applications for multi-modal supervised generative models.
+In \cite{kovaleva2020towards}, the authors make use of the multiple modalities present in the MIMI-CXR database \cite{johnson2019mimic} to build a Visual Dialog (VisDial) \cite{das2017visual} model.
+The VisDial is an extension to the Visual Question Answering (VQA) problem \cite{antol2015vqa}, where a system is required to engage in a dialog about the image.
+While their method show promising results, it also highlights the drawbacks of supervised training.
+In particular to train their models, a dataset had to be created by extracting 13 questions with 4 possible answers from the text report, for each sample.
+Another drawback is that while their method leverages more than one modality, it is not built to scale to an arbitrary number of modalities.
+%Another drawback is that while their method makes use of the text modality, ony one image modality is used .

@@ -27,3 +27,8 @@ MOD_MAPPING = {
     'Lateral': 'm2',
     'text': 'm3'
 }
+
+
+class Dummylogger:
+    def add_scalars(self, somestring: str, *kwargs):
+        pass
