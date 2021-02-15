@@ -45,6 +45,9 @@ The explicit loss function with respect to which the parameters of the VAE are u
     \textbf{Loss} = \sum _m ^{\#mods} \omega _w \cdot \log p_{\theta}(\xset_m|\textbf{z}_m) + \beta \cdot \frac{1}{2^3} \sum _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi}(\textbf{z}|\mathbb{X}_k)
 \end{equation}
 
+
+
+
 \subsection{MIMIC-CXR Database}
 The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
 In this work, three modalities were extracted from the database: frontal and lateral chest radiographs together with their corresponding text reports. Only datapoints where all three modalities are present are selected.
