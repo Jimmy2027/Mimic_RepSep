@@ -21,7 +21,7 @@ class MMVAENodes:
     n4_img: str = 'img generator'
     n5: str = 'likelihood'
     n6: str = 'log probability'
-    loss: str = r'\textbf{Loss:}\\ $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot \beta_{content} \cdot joint\_divergence $'
+    loss: str = r'\textbf{Loss:}\\ $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot joint\_divergence $'
     joint_divergence: str = r'\textbf{Joint Divergence:}\\ $\sum_{s \in subbset} kl\_div(\mu_s, logvar_s) \cdot \frac{1}{\#subsets}$\\ $kl\_div=\frac{1}{bs}\cdot -0.5 \cdot \sum_i^{bs} \sum_j^{class\_dim} 1 - exp(logvar)_{ij} -(\mu^2)_{ij} + logvar_ij$'
     batch: str = 'batch'
 
