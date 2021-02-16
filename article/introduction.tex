@@ -17,7 +17,7 @@
 	For multiple modalities, the latent representation need to represent both modality-specific and shared factors in a way such that the decoder generates semantically coherent samples across modalities \cite{shi2019variational}.
 	By combining the PoE and the MoE, the authors of \cite{thomas_gener-ELBO} are able to limit the drawbacks of both methods, while profiting from their respective advantages.
 	\cite{thomas_gener-ELBO} describes that the PoE and the MoE methods merely differ in their choice of joint posterior approximation functions, which can be subsumed under the class of abstract mean functions.
-	The multimodal variational autoencoder (MVAE \cite{wu2018multimodal}) uses a geometric mean, which enables learning a sharp posterior.
+	The multimodal variational autoencoder (MVAE \cite{wu2018multimodal}) uses a geometric mean, which enables learning a sharp posterior $\approxdistr$.
 	While resulting in a good approximation of the joint distribution, it struggles in optimizing the individual experts (\cite{wu2018multimodal}, p.3).
 	The Mixture-of-Experts multimodal variational autoencoder (MMVAE, \cite{shi2019variational}) applies an arithmetic mean, allowing a better learning of the unimodal pairwise conditional distributions.
 	It optimizes individual experts well, but is not able to learn a distribution that is sharper than any of its experts.

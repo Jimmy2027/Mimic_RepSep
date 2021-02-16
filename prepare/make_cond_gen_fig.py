@@ -1,20 +1,29 @@
 # HK, 27.01.21
 import os
+import random
 from pathlib import Path
-from logger.logger import log
 
 import mimic
+import numpy as np
 import torch
 import torch.nn as nn
 from mimic.utils import utils
 from mimic.utils.experiment import MimicExperiment
 from mimic.utils.filehandling import set_paths
 
+from logger.logger import log
 from utils import get_config
 
 
 def make_cond_gen_fig():
     config = get_config()
+
+    # set seed
+    SEED = config['seed']
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    random.seed(SEED)
+
     experiment_dir = config['experiment_dir_bin']
     experiment_path = Path(os.getcwd()) / f'data/vae_model/{experiment_dir}'
     flags_path = experiment_path / 'flags.rar'

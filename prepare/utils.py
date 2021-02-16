@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import json
+from logger.logger import log
 
 
 def get_config_path() -> str:
@@ -10,7 +11,17 @@ def get_config_path() -> str:
     elif os.path.exists('/mnt/data/hendrik'):
         return 'bartholin'
     else:
-        return 'local'
+        return 'config'
+
+
+def write_to_config(values: dict):
+    config = get_config()
+    for k, v in values.items():
+        config[k] = v
+    config_path = Path(os.getcwd()) / f'configs/{get_config_path()}.json'
+    log.info(f'Writing to {values} to config {config_path}.')
+    with open(config_path, 'w') as json_file:
+        json.dump(config, json_file, indent=4)
 
 
 def get_config() -> dict:

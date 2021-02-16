@@ -1,11 +1,13 @@
 # HK, 13.02.21
 import json
 import os
+import random
 from pathlib import Path
 
+import numpy as np
 import torch
 from mimic.dataio.MimicDataset import Mimic
-from mimic.evaluation.eval_metrics.coherence import test_generation, flatten_cond_gen_values
+from mimic.evaluation.eval_metrics.coherence import test_generation
 from mimic.utils.experiment import MimicExperiment
 from mimic.utils.filehandling import set_paths
 
@@ -16,6 +18,12 @@ from utils import get_config
 
 def test_vae_gen():
     config = get_config()
+    # set seed
+    SEED = config['seed']
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    random.seed(SEED)
+
     experiment_dir = config['experiment_dir']
     experiment_path = Path(os.getcwd()) / f'data/vae_model/{experiment_dir}'
     flags_path = experiment_path / 'flags.rar'
@@ -40,7 +48,8 @@ def test_vae_gen():
     with torch.no_grad():
         gen_eval = test_generation(0, mimic_experiment, dataset=test_set)
     results = gen_eval
-    print(results)
+
+    log.info(f'Gen eval results: {results}')
 
     out_path = Path(os.getcwd()) / 'data/gen_eval_results.json'
     log.info(f'Saving gen eval test results to {out_path}')

@@ -62,6 +62,7 @@ def test_clfs(flags, img_size: int, text_encoding: str):
     criterion = get_clf_loss(flags.clf_loss)
     dummylogger = Dummylogger()
 
+    results = {}
     for mod in MODALITIES:
         loss, val_results = eval_clf(flags, epoch=0, model=models[mod], data_loader=dataloader, log_writer=dummylogger,
                                      modality=mod, criterion=criterion)
@@ -70,32 +71,9 @@ def test_clfs(flags, img_size: int, text_encoding: str):
                           str_labels=get_labels(flags.binary_labels))
         metrics_dict = metrics.evaluate()
         print(metrics_dict)
+        results[mod] = metrics_dict
 
-    # for idx, batch in enumerate(dataloader):
-    #     batch_d = batch[0]
-    #     batch_l = batch[1]
-    #     labels = np.array(np.reshape(batch_l, (batch_l.shape[0], len(LABELS))))
-    #
-    #     for modality in results:
-    #         clf_input = Variable(batch_d[modality]).to(flags.device)
-    #         prediction = models[modality](clf_input).cpu()
-    #         results[modality]['list_prediction_vals'] = translate(prediction, results[modality]['list_prediction_vals'])
-    #         results[modality]['list_gt_vals'] = translate(batch_l.cpu(), results[modality]['list_gt_vals'])
-    #         prediction = prediction.data.numpy().ravel()
-    #         avg_precision = average_precision_score(labels.ravel(), prediction)
-    #
-    #         if not np.isnan(avg_precision):
-    #             results[modality]['list_precision_vals'].append(avg_precision)
-    #         else:
-    #             warnings.warn(
-    #                 f'avg_precision_{modality} has value {avg_precision} with labels: {labels.ravel()} and '
-    #                 f'prediction: {prediction}')
-    #
-    # for modality in results:
-    #     results[modality]['report'] = metrics.classification_report(results[modality]['list_gt_vals'],
-    #                                                                 results[modality]['list_prediction_vals'], digits=4,
-    #                                                                 output_dict=True)
-    # return results
+    return results
 
 
 def load_clfs(args) -> dict:
@@ -136,7 +114,7 @@ if __name__ == '__main__':
     mimic_config_path = Path(os.getcwd()) / f'prepare/mimic_configs/{get_config_str()}.json'
 
     FLAGS = update_flags_with_config(mimic_config_path)
-    FLAGS.dir_clf = Path(os.getcwd()) / 'data/clfs/trained_classifiers_final'
+    FLAGS.dir_clf = Path(os.getcwd()) / f'data/clfs/{config["dir_clf"]}'
     FLAGS.reduce_lr_on_plateau = True
     FLAGS.fixed_extractor = True
     FLAGS.normalization = False
@@ -148,7 +126,7 @@ if __name__ == '__main__':
 
     results = test_clfs(FLAGS, 128, 'word')
 
-    out_path = f'{FLAGS.dir_clf}/clf_test_results.json'
+    out_path = f'{FLAGS.dir_clf}/clf_test_results{"_bin_label" if FLAGS.binary_labels else ""}.json'
     log.info(f'Saving classifier test results to {out_path}')
     with open(out_path, 'w') as outfile:
         json.dump(results, outfile)
