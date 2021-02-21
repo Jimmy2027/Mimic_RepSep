@@ -3,8 +3,8 @@
 TARGET="${1}"
 WHITELIST="
 
-	article.tex
-
+  article.tex
+  slides.tex
 	"
 
 if [[ "$TARGET" = "all" ]] || [[ "$TARGET" == "" ]]; then
