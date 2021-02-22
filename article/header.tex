@@ -16,7 +16,7 @@
 \usepackage{makecell}
 \usepackage[all]{nowidow}
 \usepackage[hidelinks]{hyperref}
-\usepackage{tikz}
+
 \usepackage{bm}
 
 
@@ -25,26 +25,11 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{cleveref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=cyan,
-}
+
 \usepackage{amsfonts}
 \usepackage{abstract} % Allows abstract customization
 \renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
 \renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
-
-\newcommand{\xset}{\mathbb{X}}
-\newcommand{\xseti}{\mathbb{X}^{(i)}}
-\newcommand{\approxdistri}{q_{\phi}(\textbf{z}|\xseti)}
-\newcommand{\approxdistr}{q_{\phi}(\textbf{z}|\xset)}
-\newcommand{\truedistr}{p_{\theta}(\textbf{z}|\xseti)}
-\newcommand{\elbo}{\mathcal{L}(\theta, \phi; \xseti)}
-\newcommand{\xsubset}{\mathbb{X}_k}
-\newcommand{\lmopoe}{\mathcal{L}_{MoPoE}(\theta, \phi; \xset)}
-\newcommand{\powerset}{\mathcal{P}(\xset)}
 
 %experiments variables
 \newcommand{\imgsize}{(128, 128)}
@@ -99,8 +84,4 @@
 % Boilerplate visual style improvements
 \newcommand{\niceus}{\texttt{\_}}
 
-%BIBLIOGRAPHY
-% see https://mirror.foobar.to/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf for available styles
-\usepackage[backend=bibtex,style=numeric,natbib=true]{biblatex}
-\addbibresource{bib.bib}
-\addbibresource{old_bib.bib}
+
