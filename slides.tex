@@ -9,33 +9,14 @@
 		\titlepage
 	\end{frame}
 	\section{Introduction}
-	
+
 	    \begin{frame}
 	        In this work, we applied a method for self-supervised, multimodal and generative training from \cite{thomas_multimodal} on the MIMIC-CXR Database \cite{johnson2019mimic}.
 	    \end{frame}
-	    
+
 		\subsection{Multimodal, Unsupervised, Generative models}
 			\begin{frame}{The General Idea}
-				\resizebox{\textwidth}{!}{% 
-\begin{tikzpicture}[modalities/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum size=15mm}]
-	\node[modalities] (input_text) {Text};
-	\node[modalities, below of=input_text] (input_F) {F-Scan};
-	\node[modalities, below of=input_F] (input_L) {L-Scan};
-	\node[model, right of=input_F, xshift=2cm] (encoder) {Encoder};
-	\node[lr, right of=encoder, xshift=3cm] (lr) {Latent Representation};
-	\node[model, right of=lr, xshift=3cm] (decoder) {Decoder};
-	\node[modalities, right of=decoder, xshift=2cm] (out_F) {F-Scan};
-	\node[modalities, below of=out_F] (out_L) {L-Scan};
-	\node[modalities, above of=out_F] (out_text) {Text};
-	\draw[->] (input_text) -- (encoder);
-	\draw[->] (input_F) -- (encoder);
-	\draw[->] (input_L) -- (encoder);
-	\draw[->] (encoder) -- (lr);
-	\draw[->] (lr) -- (decoder);
-	\draw[->] (decoder) -- (out_F);
-	\draw[->] (decoder) -- (out_text);
-	\draw[->] (decoder) -- (out_L);
-\end{tikzpicture}}
+				\py{pytex_printonly(script='scripts/generalidea_graph.py', data = '')}
 			\end{frame}
 
         \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
@@ -45,7 +26,7 @@
                 \item Can generate \textit{coherent} samples from one input modality
             \end{itemize}
         \end{frame}
-        
+
     \section{Background}
         \subsection{The MoPoE-VAE}
             \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
@@ -57,9 +38,9 @@
                 \vspace{\baselineskip}
                 Both differ in their choice of the joint posterior approximation functions.
             \end{frame}
-        
+
             \begin{frame}{The PoE-VAE}
-            
+
                 \begin{itemize}
                     \item Uses a geometric mean: the joint posterior is a product of individual posteriors
                     %p(z|x_1,...,x_N)) \propto p(z) \prod _{i=1} ^N \tilde{q}(z|x_i)
@@ -70,7 +51,7 @@
                 \end{itemize}
 
             \end{frame}
-            
+
             \begin{frame}{The MoE-VAE}
             \begin{itemize}
                 \item Uses an arithmetic mean
@@ -79,53 +60,46 @@
                 \end{equation}
                 \item Optimizes individual experts well but is not able to learn a distribution that is sharper than any of its experts.
             \end{itemize}
-                
+
             \end{frame}
-        
+
             \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
                 The generalized multimodal ELBO utilizes the PoE to get the posterior approximation of a subset $\xsubset \in \mathcal{P}(\mathbb{X})$:
 
-\begin{equation}
-    \tilde{q}_{\phi}(\textbf{z}|\xsubset)=PoE(\{q_{\phi_j}(\textbf{z}|\textbf{x}_j) \forall \textbf{x}_j \in \xsubset\}) \propto \prod _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)
-\end{equation}
-And the MoE to get the joint posterior:
-\begin{equation}
-    q_{\phi}(\textbf{z}|\mathbb{X}) = \frac{1}{2^3} \sum _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)
-\end{equation}
+				\begin{equation}
+					\tilde{q}_{\phi}(\textbf{z}|\xsubset)=PoE(\{q_{\phi_j}(\textbf{z}|\textbf{x}_j) \forall \textbf{x}_j \in \xsubset\}) \propto \prod _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)
+				\end{equation}
+				And the MoE to get the joint posterior:
+				\begin{equation}
+					q_{\phi}(\textbf{z}|\mathbb{X}) = \frac{1}{2^3} \sum _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)
+				\end{equation}
             \end{frame}
-            
+
             \begin{frame}{Frame Title}
 
-\resizebox{\textwidth}{!}{% 
-\begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=40mm, minimum width=20mm},t/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},lat/.style={rectangle, draw=blue!60, fill=blue!5, very thick, minimum size=5mm},front/.style={rectangle, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},lr/.style={circle, draw=grey!60, fill=grey!5, very thick, minimum size=5mm},]
-	\node[t] (input_text) {Text};
-	\node[front, below of=input_text] (input_F) {F-Scan};
-	\node[lat, below of=input_F] (input_L) {L-Scan};
-	\node[model, right of=input_F, xshift=2cm] (encoder) {Encoder};
-	\node[model, right of=encoder, xshift=2cm, align=center] (poe) {PoE\\ \tiny{$\prod _m q_{\Phi_m}(z|x_m)$}};
-	\node[ right of=poe, xshift=1cm] (points) {\ldots};
-	\node[model, right of=points, xshift=1cm, align=center] (moe) {MoE\\ \tiny{$\sum \limits_{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)$}};
-	\node[lr,right of=moe, xshift=3cm, align=center] (z) {joint\\ posterior};
-	\draw[->] (input_text) -- (encoder);
-	\draw[->] (input_F) -- (encoder);
-	\draw[->] (input_L) -- (encoder);
-	\draw[->] ([yshift=--1.8cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\mu_0$}} ([yshift=--1.8cm]poe.west);
-	\draw[->] ([yshift=--1.08cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\sigma_0$}} ([yshift=--1.08cm]poe.west);
-	\draw[->] ([yshift=--0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\mu_1$}} ([yshift=--0.3600000000000001cm]poe.west);
-	\draw[->] ([yshift=-0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\sigma_1$}} ([yshift=-0.3600000000000001cm]poe.west);
-	\draw[->] ([yshift=-1.0799999999999998cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\mu_2$}} ([yshift=-1.0799999999999998cm]poe.west);
-	\draw[->] ([yshift=-1.8cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\sigma_2$}} ([yshift=-1.8cm]poe.west);
-	\draw[->] ([yshift=--1.8cm]poe.east) -- node[anchor=south] {$\mu ^\prime_0$} ([yshift=--1.8cm]moe.west);
-	\draw[->] ([yshift=--1.08cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_0$} ([yshift=--1.08cm]moe.west);
-	\draw[->] ([yshift=-1.0799999999999998cm]poe.east) -- node[anchor=south] {$\mu ^\prime_K$} ([yshift=-1.0799999999999998cm]moe.west);
-	\draw[->] ([yshift=-1.8cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_K$} ([yshift=-1.8cm]moe.west);
-	\draw[->] ([yshift=-1cm]moe.east) -- node[anchor=south] {$\mu$} ([yshift=-5mm]z.west);
-	\draw[->] ([yshift=1cm]moe.east) -- node[anchor=south] {$\sigma$} ([yshift=5mm]z.west);
-\end{tikzpicture}}
-
+			\py{pytex_printonly(script='scripts/mopoe_graph.py', data = '')}
 
             \end{frame}
-        
+
+    \section{Methods}
+        \subsubsection{The MIMIC-CXR Database}
+
+            \begin{frame}
+                \begin{enumerate}
+                    \item Implemented word encoding (show dictionary example)
+                    \item tested image size
+                    \item tested beta
+                    \item tested class dim
+                \end{enumerate}
+            \end{frame}
+
+            \begin{frame}
+                \py{pytex_fig('scripts/rand_sample_from_dataset.py', conf='slides/dataset.conf', label='dataset_samples', caption='Samples from the dataset.')}
+            \end{frame}
+
+            \begin{frame}{The word encoding}
+
+            \end{frame}
 \printbibliography
-    
+
 \end{document}

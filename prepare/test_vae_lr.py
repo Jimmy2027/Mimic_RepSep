@@ -11,19 +11,17 @@ from mimic.dataio.MimicDataset import Mimic
 from mimic.evaluation.eval_metrics.representation import train_clf_lr_all_subsets, classify_latent_representations
 from mimic.networks.classifiers.utils import Metrics, get_labels
 from mimic.utils.experiment import MimicExperiment
-from mimic.utils.filehandling import set_paths
 from mimic.utils.utils import dict_to_device
 from torch.utils.data import DataLoader
 
 from logger.logger import log
 from utils import Dummylogger
 from utils import get_config
-
+from utils import set_paths
 
 def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[str, float]]:
     """
     Test the classifiers that were trained on latent representations.
-
     """
     args = exp.flags
     mm_vae = exp.mm_vae
@@ -34,7 +32,7 @@ def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[s
 
     test_set = Mimic(args, exp.labels, split='test')
 
-    d_loader = DataLoader(test_set, batch_size=exp.flags.batch_size, shuffle=True, num_workers=0, drop_last=True)
+    d_loader = DataLoader(test_set, batch_size=exp.flags.batch_size, shuffle=True, num_workers=0, drop_last=False)
 
     if exp.flags.steps_per_training_epoch > 0:
         training_steps = exp.flags.steps_per_training_epoch

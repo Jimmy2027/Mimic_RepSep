@@ -30,6 +30,9 @@ def get_config() -> dict:
         config = json.load(json_file)
     return config
 
+def set_paths(flags, config):
+    flags.dir_data = os.path.expanduser(config['dir_data'])
+    return flags
 
 MODALITIES = ['PA', 'Lateral', 'text']
 LABELS = ['Lung Opacity', 'Pleural Effusion', 'Support Devices']
