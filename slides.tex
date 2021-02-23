@@ -83,7 +83,11 @@
 
     \section{Methods}
         \subsubsection{The MIMIC-CXR Database}
-
+            \begin{frame}{The dataset}
+            The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
+                
+            \end{frame}
+            
             \begin{frame}
                 \begin{enumerate}
                     \item Implemented word encoding (show dictionary example)
@@ -96,10 +100,66 @@
             \begin{frame}
                 \py{pytex_fig('scripts/rand_sample_from_dataset.py', conf='slides/dataset.conf', label='dataset_samples', caption='Samples from the dataset.')}
             \end{frame}
-
-            \begin{frame}{The word encoding}
-
+            
+            \begin{frame}{The labels}
+                Since the multiple labels from the dataset are highly imbalanced, we created a label "Finding", indicating if the sample is labeled with any pathology.\\
+                There are \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
             \end{frame}
+            
+            \begin{frame}{The word encoding}
+                Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index.\\
+                Using this mapping each sentence is encoded into a sequence of indices.\\
+                
+                \pause
+                "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
+                \begin{bmatrix}
+                1 & 0 & 0 & 0\\
+                0 & 1 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 1\\
+                \end{bmatrix}$\\
+                $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal." 
+            \end{frame}
+            
+        \subsection{The model architecture}
+        \begin{frame}{The model}
+            The MoPoE-VAE has an encoder and decoder for each modality, in this work both are the same for the image modalities (frontal and lateral scans).
+        \end{frame}
+        
+        \begin{frame}{Resnet}
+        % todo
+        Show resnet architecture
+            
+        \end{frame}
+        
+        \subsection{Evaluation methods}
+        \begin{frame}{Evaluation of the latent representation}
+        \begin{figure}[!h]
+        \centering
+        \begin{tikzpicture}
+        
+              \begin{scope}[blend group = soft light]
+                \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                \fill[green!40!white] (0:-2) ellipse (1.5cm and 2cm);
+                \fill[red!40!white]  (0:2) ellipse (1.5cm and 2cm);
+                \draw [-,ultra thick] (0,-1.5) -- (0,1.5);
+            \end{scope}
+                \node at (0:-2)   {"No Finding"};
+              \node at (0:2)   {"Finding"};
+              \node at (90:2.3) [font=\Large] {Latent Representation};
+            \end{tikzpicture}
+        \end{figure}    
+        \end{frame}
+        
+        \begin{frame}{Evaluation of the generation coherence}
+        To evaluate the coherence of the generated samples, they are classified using trained ResNet classifiers.
+        If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
+        \end{frame}
+        
+    \section{Results}
+        \subsection{Generation Evaluation}
+        
+    
+        
 \printbibliography
-
 \end{document}
