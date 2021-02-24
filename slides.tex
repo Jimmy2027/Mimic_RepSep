@@ -13,11 +13,11 @@
     \section{Introduction}
 
     \begin{frame}
-        In this work, we applied a method for self-supervised, multimodal and generative training from \cite{thomas_multimodal} on the MIMIC-CXR Database \cite{johnson2019mimic}.
+        In this work, I applied a method for \textbf{self-supervised},\textbf{multimodal} and \textbf{generative} training from \cite{thomas_multimodal} on medical data from the MIMIC-CXR Database (\cite{johnson2019mimic}).
     \end{frame}
 
     \subsection{Multimodal, Unsupervised, Generative models}
-    \begin{frame}{The General Idea}
+    \begin{frame}{Self-supervised, multimodal, generative learning?}
         \py{pytex_printonly(script='scripts/generalidea_graph.py', data = '')}
     \end{frame}
 
@@ -28,11 +28,18 @@
             \item Can generate \textit{coherent} samples from one input modality
         \end{itemize}
     \end{frame}
-
-
+    
+    \begin{frame}{No need for labeled data}
+    Since the model is trained to only reconstruct the input images, it does not need labeled data for training.
+    This is a big advantage over other methods because labeled data in the medical domain is rare and hard to acquire because it requires manual expert input.\\
+    \\
+    \pause
+    However, since the data belonging to different classes will be represented in a different manner in the learned latent representation of the model, the model can still be used for data classification.
+        
+    \end{frame}
     \section{Background}
 
-    \subsection{The MoPoE-VAE \cite{thomas_gener-ELBO}}
+    \subsection{The MoPoE-VAE (\cite{thomas_gener-ELBO})}
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
         Combination of:
         \begin{itemize}
@@ -107,16 +114,19 @@
         Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index.\\
         Using this mapping each sentence is encoded into a sequence of indices.\\
         The output of the decoder is in a one-hot-encoded format.
-
+        
         \pause
+        \vspace{\baselineskip}
+
+        \small{
         "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
-        \begin{bmatrix}
+        \begin{bsmallmatrix}
             1 & 0 & 0 & 0\\
             0 & 1 & 0 & 0\\
             0 & 0 & 1 & 0\\
             0 & 0 & 0 & 1\\
-        \end{bmatrix}$\\
-        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."
+        \end{bsmallmatrix}$
+        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."}
     \end{frame}
 
     \subsection{The model architecture}
@@ -135,6 +145,14 @@
     \end{frame}
 
     \subsection{Evaluation methods}
+    
+    \begin{frame}{Evaluation Methods}
+        \begin{itemize}
+            \item Evaluation of the separability of the latent representation
+            \item Evaluation of the generation coherence
+        \end{itemize}
+    \end{frame}
+    
     \begin{frame}{Evaluation of the latent representation}
         \begin{figure}[!h]
             \centering
@@ -151,6 +169,42 @@
                 \node at (90:2.3) [font=\Large] {Latent Representation};
             \end{tikzpicture}
         \end{figure}
+        
+        \onslide<+->{
+        
+        \begin{figure}[!h]
+            \centering
+            \begin{tikzpicture}
+
+                \begin{scope}[blend group = soft light]
+                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                    \fill[green!40!white] (0:-1) ellipse (3cm and 2cm);
+                    \fill[red!40!white]  (0:1) ellipse (3cm and 2cm);
+                \end{scope}
+                \node at (0:-2)   {"No Finding"};
+                \node at (0:2)   {"Finding"};
+                \node at (90:2.3) [font=\Large] {Latent Representation};
+            \end{tikzpicture}
+        \end{figure}  
+        }
+
+    \end{frame}
+    
+    \begin{frame}{}
+        \begin{figure}[!h]
+            \centering
+            \begin{tikzpicture}
+
+                \begin{scope}[blend group = soft light]
+                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                    \fill[green!40!white] (0:-1) ellipse (3cm and 2cm);
+                    \fill[red!40!white]  (0:1) ellipse (3cm and 2cm);
+                \end{scope}
+                \node at (0:-2)   {"No Finding"};
+                \node at (0:2)   {"Finding"};
+                \node at (90:2.3) [font=\Large] {Latent Representation};
+            \end{tikzpicture}
+        \end{figure}    
     \end{frame}
 
     \begin{frame}{Evaluation of the generation coherence}
@@ -167,7 +221,7 @@
             \centering
             \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text}
                 \caption{\tiny{
-        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the scans that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see wether they represent some of the features that are characteristic to the input samples.
+        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the scans that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
     }}
         \end{figure}
     \end{frame}
