@@ -56,7 +56,8 @@ The parameters $\omega _w$ and $\beta$ are chosen empirically.
 
 \subsection{MIMIC-CXR Database}
 The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
-In this work, three modalities were extracted from the database: frontal and lateral chest radiographs together with their corresponding text reports. Only datapoints where all three modalities are present were selected.
+In this work, three modalities were extracted from the database: frontal and lateral chest radiographs together with their corresponding text reports.
+Only datapoints where all three modalities are present were selected.
 Every sample is labeled with one or more of the following categories: 'Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Enlarged Cardiomediastinum', 'Fracture', 'Lung Lesion', 'Lung Opacity', 'Pleural Effusion', 'Pleural Other', 'Pneumonia', 'Pneumothorax', 'Support Devices'.
 For the evaluation of our method, we created a label "Finding", indicating if the sample is labeled with any of the previously listed labels.
 We note that the dataset is highly unbalanced, namely there are \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
@@ -80,7 +81,7 @@ Using this mapping each sentence is encoded into a sequence of indices.
 All sentences with a word count above \py{boilerplate.print_flag_attribute('len_sequence')} are truncated and all sentences consisting of less words are padded with a padding token "$<pad>$" such that all text samples are of length \py{boilerplate.print_flag_attribute('len_sequence')}.
 
 \subsection{Evaluation of the Latent Representations}
-To evaluate if the MoPoE-VAE is able to extract characteristic information and compress them as a latent representation in a meaningful manner, we evaluate the separability of the latent space with via logistic regression, as implemented by the freely available software package scikit-learn \cite{scikit}.
+To evaluate if the MoPoE-VAE is able to extract characteristic information and compress them as a latent representation in a meaningful manner, we evaluate the separability of the latent space via logistic regression, as implemented by the freely available software package scikit-learn \cite{scikit}.
 If the classifier can separate the latent space into the corresponding classes, we conclude that the posterior approximations are meaningful.
 For this a linear classifier was trained on 500 samples from the training set, encoded by the encoder parts of the MoPoE-VAE.
 One classifier for each Class and for each latent space (so $3*2^3 = 24$ classifiers in total) is used.

@@ -5,161 +5,174 @@
 \author{Hendrik Klug}
 \institute{Institute for Electrical Engineering, ETH}
 \begin{document}
-	\begin{frame}
-		\titlepage
-	\end{frame}
-	\section{Introduction}
+    \begin{frame}
+        \titlepage
+    \end{frame}
 
-	    \begin{frame}
-	        In this work, we applied a method for self-supervised, multimodal and generative training from \cite{thomas_multimodal} on the MIMIC-CXR Database \cite{johnson2019mimic}.
-	    \end{frame}
 
-		\subsection{Multimodal, Unsupervised, Generative models}
-			\begin{frame}{The General Idea}
-				\py{pytex_printonly(script='scripts/generalidea_graph.py', data = '')}
-			\end{frame}
+    \section{Introduction}
 
-        \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
-            \begin{itemize}
-                \item No need for labeled data
-                \item Can extract features from multiple modalities
-                \item Can generate \textit{coherent} samples from one input modality
-            \end{itemize}
-        \end{frame}
+    \begin{frame}
+        In this work, we applied a method for self-supervised, multimodal and generative training from \cite{thomas_multimodal} on the MIMIC-CXR Database \cite{johnson2019mimic}.
+    \end{frame}
+
+    \subsection{Multimodal, Unsupervised, Generative models}
+    \begin{frame}{The General Idea}
+        \py{pytex_printonly(script='scripts/generalidea_graph.py', data = '')}
+    \end{frame}
+
+    \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
+        \begin{itemize}
+            \item No need for labeled data
+            \item Can extract features from multiple modalities
+            \item Can generate \textit{coherent} samples from one input modality
+        \end{itemize}
+    \end{frame}
+
 
     \section{Background}
-        \subsection{The MoPoE-VAE}
-            \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
-            Combination of:
-                \begin{itemize}
-                    \item The Product-of-Experts (PoE) from \cite{wu2018multimodal}
-                    \item The Mixture-of-Experts (MoE) from \cite{shi2019variational}
-                \end{itemize}
-                \vspace{\baselineskip}
-                Both differ in their choice of the joint posterior approximation functions.
-            \end{frame}
 
-            \begin{frame}{The PoE-VAE}
+    \subsection{The MoPoE-VAE \cite{thomas_gener-ELBO}}
+    \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
+        Combination of:
+        \begin{itemize}
+            \item The Product-of-Experts (PoE) from \cite{wu2018multimodal}
+            \item The Mixture-of-Experts (MoE) from \cite{shi2019variational}
+        \end{itemize}
+        \vspace{\baselineskip}
+        Both differ in their choice of the joint posterior approximation functions.
+    \end{frame}
 
-                \begin{itemize}
-                    \item Uses a geometric mean: the joint posterior is a product of individual posteriors
-                    %p(z|x_1,...,x_N)) \propto p(z) \prod _{i=1} ^N \tilde{q}(z|x_i)
-                \begin{equation}
-                    q_{\Phi}(z|x_{1:M})=\prod _m q_{\Phi_m}(z|x_m)
-                \end{equation}
-                    \item Results in a good approximation of the joint distribution but struggles in optimizing the individual experts.
-                \end{itemize}
+    \begin{frame}{The PoE-VAE}
 
-            \end{frame}
+        \begin{itemize}
+            \item Uses a geometric mean: the joint posterior is a product of individual posteriors
+            %p(z|x_1,...,x_N)) \propto p(z) \prod _{i=1} ^N \tilde{q}(z|x_i)
+            \begin{equation}
+                q_{\Phi}(z|x_{1:M})=\prod _m q_{\Phi_m}(z|x_m)
+            \end{equation}
+            \item Results in a good approximation of the joint distribution but struggles in optimizing the individual experts.
+        \end{itemize}
 
-            \begin{frame}{The MoE-VAE}
-            \begin{itemize}
-                \item Uses an arithmetic mean
-                \begin{equation}
-                    q_{\Phi}(z|x_{1:M})=\sum _m \alpha_m\cdot q_{\Phi_m}(z|x_m)
-                \end{equation}
-                \item Optimizes individual experts well but is not able to learn a distribution that is sharper than any of its experts.
-            \end{itemize}
+    \end{frame}
 
-            \end{frame}
+    \begin{frame}{The MoE-VAE}
+        \begin{itemize}
+            \item Uses an arithmetic mean
+            \begin{equation}
+                q_{\Phi}(z|x_{1:M})=\sum _m \alpha_m\cdot q_{\Phi_m}(z|x_m)
+            \end{equation}
+            \item Optimizes individual experts well but is not able to learn a distribution that is sharper than any of its experts.
+        \end{itemize}
 
-            \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
-                The generalized multimodal ELBO utilizes the PoE to get the posterior approximation of a subset $\xsubset \in \mathcal{P}(\mathbb{X})$:
+    \end{frame}
 
-				\begin{equation}
-					\tilde{q}_{\phi}(\textbf{z}|\xsubset)=PoE(\{q_{\phi_j}(\textbf{z}|\textbf{x}_j) \forall \textbf{x}_j \in \xsubset\}) \propto \prod _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)
-				\end{equation}
-				And the MoE to get the joint posterior:
-				\begin{equation}
-					q_{\phi}(\textbf{z}|\mathbb{X}) = \frac{1}{2^3} \sum _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)
-				\end{equation}
-            \end{frame}
+    \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
+        The generalized multimodal ELBO utilizes the PoE to get the posterior approximation of a subset $\xsubset \in \mathcal{P}(\mathbb{X})$:
 
-            \begin{frame}{Frame Title}
+        \begin{equation}
+            \tilde{q}_{\phi}(\textbf{z}|\xsubset)=PoE(\{q_{\phi_j}(\textbf{z}|\textbf{x}_j) \forall \textbf{x}_j \in \xsubset\}) \propto \prod _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)
+        \end{equation}
+        And the MoE to get the joint posterior:
+        \begin{equation}
+            q_{\phi}(\textbf{z}|\mathbb{X}) = \frac{1}{2^3} \sum _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)
+        \end{equation}
+    \end{frame}
 
-			\py{pytex_printonly(script='scripts/mopoe_graph.py', data = '')}
+    \begin{frame}{}
 
-            \end{frame}
+        \py{pytex_printonly(script='scripts/mopoe_graph.py', data = '')}
+
+    \end{frame}
+
 
     \section{Methods}
-        \subsubsection{The MIMIC-CXR Database}
-            \begin{frame}{The dataset}
-            The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
-                
-            \end{frame}
-            
-            \begin{frame}
-                \begin{enumerate}
-                    \item Implemented word encoding (show dictionary example)
-                    \item tested image size
-                    \item tested beta
-                    \item tested class dim
-                \end{enumerate}
-            \end{frame}
 
-            \begin{frame}
-                \py{pytex_fig('scripts/rand_sample_from_dataset.py', conf='slides/dataset.conf', label='dataset_samples', caption='Samples from the dataset.')}
-            \end{frame}
-            
-            \begin{frame}{The labels}
-                Since the multiple labels from the dataset are highly imbalanced, we created a label "Finding", indicating if the sample is labeled with any pathology.\\
-                There are \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
-            \end{frame}
-            
-            \begin{frame}{The word encoding}
-                Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index.\\
-                Using this mapping each sentence is encoded into a sequence of indices.\\
-                
-                \pause
-                "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
-                \begin{bmatrix}
-                1 & 0 & 0 & 0\\
-                0 & 1 & 0 & 0\\
-                0 & 0 & 1 & 0\\
-                0 & 0 & 0 & 1\\
-                \end{bmatrix}$\\
-                $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal." 
-            \end{frame}
-            
-        \subsection{The model architecture}
-        \begin{frame}{The model}
-            The MoPoE-VAE has an encoder and decoder for each modality, in this work both are the same for the image modalities (frontal and lateral scans).
-        \end{frame}
-        
-        \begin{frame}{Resnet}
-        % todo
-        Show resnet architecture
-            
-        \end{frame}
-        
-        \subsection{Evaluation methods}
-        \begin{frame}{Evaluation of the latent representation}
+    \subsection{The MIMIC-CXR Database}
+    \begin{frame}{The dataset}
+        The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
+
+    \end{frame}
+
+    \begin{frame}
+        \py{pytex_fig('scripts/rand_sample_from_dataset.py', conf='slides/dataset.conf', label='dataset_samples', caption='Samples from the dataset.')}
+    \end{frame}
+
+    \begin{frame}{The labels}
+        Since the multiple labels from the dataset are highly imbalanced, we created a label "Finding", indicating if the sample is labeled with any pathology.\\
+        There are \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
+    \end{frame}
+
+    \begin{frame}{The word encoding}
+        Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index.\\
+        Using this mapping each sentence is encoded into a sequence of indices.\\
+        The output of the decoder is in a one-hot-encoded format.
+
+        \pause
+        "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
+        \begin{bmatrix}
+            1 & 0 & 0 & 0\\
+            0 & 1 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & 0 & 0 & 1\\
+        \end{bmatrix}$\\
+        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."
+    \end{frame}
+
+    \subsection{The model architecture}
+    \begin{frame}{The model}
+        The MoPoE-VAE has an encoder and decoder for each modality, in this work we used a ResNet type architecture for all encoders and decoders.
+    \end{frame}
+
+    \begin{frame}{Resnet}
+        Residual Neural Networks are a popular architecture for deep learning models.
+        Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
+        \begin{figure}
+            \includegraphics[width=0.3\textwidth, keepaspectratio]{slides/Residual_block}
+            \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
+        \end{figure}
+
+    \end{frame}
+
+    \subsection{Evaluation methods}
+    \begin{frame}{Evaluation of the latent representation}
         \begin{figure}[!h]
-        \centering
-        \begin{tikzpicture}
-        
-              \begin{scope}[blend group = soft light]
-                \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
-                \fill[green!40!white] (0:-2) ellipse (1.5cm and 2cm);
-                \fill[red!40!white]  (0:2) ellipse (1.5cm and 2cm);
-                \draw [-,ultra thick] (0,-1.5) -- (0,1.5);
-            \end{scope}
+            \centering
+            \begin{tikzpicture}
+
+                \begin{scope}[blend group = soft light]
+                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                    \fill[green!40!white] (0:-2) ellipse (1.5cm and 2cm);
+                    \fill[red!40!white]  (0:2) ellipse (1.5cm and 2cm);
+                    \draw [-,ultra thick] (0,-1.5) -- (0,1.5);
+                \end{scope}
                 \node at (0:-2)   {"No Finding"};
-              \node at (0:2)   {"Finding"};
-              \node at (90:2.3) [font=\Large] {Latent Representation};
+                \node at (0:2)   {"Finding"};
+                \node at (90:2.3) [font=\Large] {Latent Representation};
             \end{tikzpicture}
-        \end{figure}    
-        \end{frame}
-        
-        \begin{frame}{Evaluation of the generation coherence}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}{Evaluation of the generation coherence}
         To evaluate the coherence of the generated samples, they are classified using trained ResNet classifiers.
         If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
-        \end{frame}
-        
+    \end{frame}
+
+
     \section{Results}
-        \subsection{Generation Evaluation}
-        
-    
-        
-\printbibliography
+
+    \subsection{Generation Evaluation}
+    \begin{frame}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text}
+                \caption{\tiny{
+        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the scans that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see wether they represent some of the features that are characteristic to the input samples.
+    }}
+        \end{figure}
+    \end{frame}
+
+
+
+    \printbibliography
 \end{document}

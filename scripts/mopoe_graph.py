@@ -28,10 +28,10 @@ pic = tikz.Picture(
 pic.set_node(text=nodes.input_text, options='t', name='input_text')
 pic.set_node(text=nodes.input_F, options='front, below of=input_text', name='input_F')
 pic.set_node(text=nodes.input_L, options='lat, below of=input_F', name='input_L')
-pic.set_node(text=nodes.encoder, options='model, right of=input_F, xshift=2cm', name='encoder')
-pic.set_node(text=nodes.poe, options='model, right of=encoder, xshift=2cm, align=center', name='poe')
+pic.set_node(text=nodes.encoder, options='model, right of=input_F, xshift=1cm', name='encoder')
+pic.set_node(text=nodes.poe, options='model, right of=encoder, xshift=3cm, align=center', name='poe')
 pic.set_node(text=nodes.points, options=' right of=poe, xshift=1cm', name='points')
-pic.set_node(text=nodes.moe, options='model, right of=points, xshift=1cm, align=center', name='moe')
+pic.set_node(text=nodes.moe, options='model, right of=points, xshift=1.5cm, align=center', name='moe')
 pic.set_node(text=nodes.z, options='lr,right of=moe, xshift=3cm, align=center', name='z')
 pic.set_line('input_text', 'encoder')
 pic.set_line('input_F', 'encoder')
@@ -64,11 +64,6 @@ for idx, i in enumerate(np.linspace(-1.8, 1.8, 6)):
 pic.set_line('[yshift=-1cm]moe.east', '[yshift=-5mm]z.west', label=r'$\mu$', label_pos='south')
 pic.set_line('[yshift=1cm]moe.east', '[yshift=5mm]z.west', label=r'$\sigma$', label_pos='south')
 
-# pic.set_line('encoder', 'lr')
-# pic.set_line('lr', 'decoder')
-# pic.set_line('decoder', 'out_F')
-# pic.set_line('decoder', 'out_text')
-# pic.set_line('decoder', 'out_L')
 
 output = r'\resizebox{\textwidth}{!}{% ' + '\n' + pic.make() + '}'
 print(output)
