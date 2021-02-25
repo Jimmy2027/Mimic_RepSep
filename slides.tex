@@ -146,7 +146,7 @@
         \end{equation}
     \end{frame}
 
-    \begin{frame}{}
+    \begin{frame}[label={mopoe_graph}]
 
         \py{pytex_printonly(script='scripts/mopoe_graph.py', data = '')}
 
@@ -256,8 +256,9 @@
 
     \begin{frame}{Hyper-Parameter Selection}
         We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
-        Namely, a value of 1 for the $\beta$ parameter and a class dimension of 512 gave the best separability of the latent space.
+        Namely, a value of 1 for the $\beta$ parameter and a \hyperlink{mopoe_graph}{\textit{class dimension}} of 512 gave the best separability of the latent space.
         
+
     \end{frame}
     
     
