@@ -52,5 +52,6 @@ def print_lr_table(bin_labels: bool):
     df.sort_index(inplace=True)
 
     df_tex = df.to_latex(escape=False)
-
+    df_tex = df_tex.replace(r'\toprule', '')
+    # df_tex = df_tex.replace(r'\bottomrule', '')
     print(bold_max_value(df, df_tex))

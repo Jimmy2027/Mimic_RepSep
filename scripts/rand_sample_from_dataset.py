@@ -42,13 +42,13 @@ ax1.set_title('Text report',fontweight="bold")
 
 ax2 = plt.subplot(221)
 ax2.imshow(img_pa, cmap='gray')
-ax2.set_title('Lateral view',fontweight="bold")
+ax2.set_title('Frontal view',fontweight="bold")
 ax2.axis('off')
 
 ax3 = plt.subplot(222)
 # ax3.margins(x=0, y=-0.25)   # Values in (-0.5, 0.0) zooms in to center
 ax3.imshow(img_lat, cmap='gray')
-ax3.set_title('Frontal view',fontweight="bold")
+ax3.set_title('Lateral view',fontweight="bold")
 ax3.axis('off')
 
 plt.tight_layout(h_pad=3)

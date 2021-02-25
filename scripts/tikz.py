@@ -209,9 +209,9 @@ class Picture(object):
         self.add_command(cmd)
 
     def set_line(self, origin, destination, exit_direction=None, input_direction=None, line_type='straight',
-                 label=None, label_pos='', edge_options=''):
+                 label=None, label_pos='', edge_options='',color:str=None):
 
-        cmd = f'\\draw[->] ({origin}'
+        cmd = f'\\draw[->{"," + color if color else ""}] ({origin}'
         if exit_direction:
             cmd += f'.{exit_direction}'
         if edge_options:

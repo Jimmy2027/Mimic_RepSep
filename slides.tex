@@ -254,8 +254,8 @@
         If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
     \end{frame}
 
-    \begin{frame}{Hyper-parameter Selection}
-        We used a simple grid search to find the best hyperparameters, retaining the parameter values that result in the best performance on the evaluation of the latent representation.\\
+    \begin{frame}{Hyper-Parameter Selection}
+        We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
         Namely, a value of 1 for the $\beta$ parameter and a class dimension of 512 gave the best separability of the latent space.
         
     \end{frame}
@@ -263,7 +263,45 @@
     
     \section{Results}
 
+    \subsection{Evaluation of the Latent Representation}
+    \begin{frame}{Mean AP for the MoPoE}
+        \py{
+            pytex_tab(
+            script='scripts/lr_table_bin.py',
+            label='lr_table_bin',
+            caption='\\small{ \\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifiers evaluated on the subspace containing all modalities achieves the highest mean average precision.}',
+            options_pre='\\centering \\small',
+            options_post='',
+                    )
+        }
+    \end{frame}
+
+    \begin{frame}{Mean AP for the supervised method}
+        \py{
+    pytex_tab(
+    script='scripts/clf_table_bin.py',
+    label='clf_table_bin',
+    caption='\\small{\\textbf{Classification results of the supervised classifiers using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifier trained on the T modality achieves the highest score.}',
+    options_pre='\\centering \\small',
+    options_post='',
+    )
+}
+    \end{frame}
+
     \subsection{Generation Evaluation}
+
+    \begin{frame}
+        \py{
+    pytex_tab(
+    script='scripts/gen_eval_table.py',
+    label='gen_eval_table',
+    caption='\\small{\\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.}',
+    options_pre='\\centering \\small',
+    options_post='',
+    )
+}
+    \end{frame}
+
     \begin{frame}
         \begin{figure}
             \centering
@@ -273,7 +311,17 @@
     }}
         \end{figure}
     \end{frame}
-    
+
+    \begin{frame}
+        \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_PA_text}
+    \caption{\tiny{
+        \textbf{Conditionally generated samples with F, L and T modalities as conditioner.} While the generated images are blurry, they do present some features that can be found in the input samples.
+    }}
+    \label{fig:fig_cond_latPAtext}
+\end{figure}
+    \end{frame}
 
     \printbibliography
 \end{document}

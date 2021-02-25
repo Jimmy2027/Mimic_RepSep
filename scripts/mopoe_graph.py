@@ -9,8 +9,8 @@ class Nodes:
     input_F: str = 'F-Scan'
     input_text: str = 'Text'
     encoder: str = 'Encoder'
-    poe: str = r'PoE\\ $\prod _m q_{\Phi_m}(z|x_m)$'
-    moe: str = r'MoE\\ $\sum _m \alpha_m\cdot q_{\Phi_m}(z|x_m)$'
+    poe: str = r'\textbf{PoE}\\ \vspace{\baselineskip}\\ $\prod \limits _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)$'
+    moe: str = r'\textbf{MoE}\\ \vspace{\baselineskip}\\ $\frac{1}{2^3} \sum \limits _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)$'
     z: str = r'joint\\ posterior'
     points: str = r'\ldots'
 
@@ -48,7 +48,7 @@ for idx, i in enumerate(np.linspace(-1.8, 1.8, 6)):
                      label=r'\textcolor{' + mod_color[mod] + '}{$\sigma' + f'_{mod}$}}')
         mod += 1
 
-mods = {0: 0, 2: 'K'}
+mods = {0: 0, 2: '7'}
 mod = 0
 for idx, i in enumerate(np.linspace(-1.8, 1.8, 6)):
     if idx % 2 == 0:
