@@ -13,7 +13,7 @@
     \section{Introduction}
 
     \begin{frame}
-        In this work, I applied a method for \textbf{self-supervised},\textbf{multimodal} and \textbf{generative} training from \cite{thomas_multimodal} on medical data from the MIMIC-CXR Database (\cite{johnson2019mimic}).
+        In this work, we applied a method for \textbf{self-supervised},\textbf{multimodal} and \textbf{generative} training from \cite{thomas_multimodal} on medical data from the MIMIC-CXR Database (\cite{johnson2019mimic}).
     \end{frame}
 
     \subsection{Multimodal, Unsupervised, Generative models}
@@ -24,8 +24,6 @@
     \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
         \begin{itemize}
             \item No need for labeled data
-            \item Can extract features from multiple modalities
-            \item Can generate \textit{coherent} samples from one input modality
         \end{itemize}
     \end{frame}
     
@@ -37,19 +35,81 @@
     However, since the data belonging to different classes will be represented in a different manner in the learned latent representation of the model, the model can still be used for data classification.
         
     \end{frame}
+    
+        \begin{frame}{}
+        \begin{figure}
+            \centering
+
+            \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=20mm, minimum width=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=30mm,  minimum width=60mm},t/.style={ellipse, draw=green!60, fill=green!5, very thick, minimum size=5mm},front/.style={ellipse, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},]
+            	\node[t] (cl1) {class 1};
+            	%\node[front, below of=cl1] (cl2) {class 1};
+            	\node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
+            	\node[lr, right of=model, xshift=4cm] (lr) {};
+            	\node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
+            		\node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
+            
+            	%\node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
+            	\draw[->,green!60] (cl1) -- (model);
+            	%\draw[->,orange!60] (cl2) -- (model);
+            	\draw[->,green!60] (model) -- (cl1_);
+            	%\draw[->,orange!60] (model) -- (cl2_);
+            \end{tikzpicture}
+        \end{figure}
+
+    \end{frame}
+    
+    
+    \begin{frame}{}
+            \begin{figure}
+            \centering
+        \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=20mm, minimum width=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=30mm,  minimum width=60mm},t/.style={ellipse, draw=green!60, fill=green!5, very thick, minimum size=5mm},front/.style={ellipse, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},]
+	\node[t] (cl1) {class 1};
+	\node[front, below of=cl1] (cl2) {class 2};
+	\node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
+	\node[lr, right of=model, xshift=4cm] (lr) {};
+	\node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
+	\node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
+	\node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
+	\draw[->,green!60] (cl1) -- (model);
+	\draw[->,orange!60] (cl2) -- (model);
+	\draw[->,green!60] (model) -- (cl1_);
+	\draw[->,orange!60] (model) -- (cl2_);
+\end{tikzpicture}
+        \end{figure}
+
+    \end{frame}
+    
+
+    
+        \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
+        \begin{itemize}
+            \item No need for labeled data
+            \item Can extract features from multiple modalities that exist in the medical domain:
+            \pause
+                \begin{itemize}
+                    \item Scans from multiple angles or scanning technologies
+                    \item Text reports
+                    \item Electronic health records
+                \end{itemize}
+            \pause
+            \item Can generate \textit{coherent} samples from one input modality
+        \end{itemize}
+    \end{frame}
+    
     \section{Background}
 
     \subsection{The MoPoE-VAE (\cite{thomas_gener-ELBO})}
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
+    \pause
         Combination of:
         \begin{itemize}
             \item The Product-of-Experts (PoE) from \cite{wu2018multimodal}
             \item The Mixture-of-Experts (MoE) from \cite{shi2019variational}
         \end{itemize}
         \vspace{\baselineskip}
-        Both differ in their choice of the joint posterior approximation functions.
+        Both present a different choice for the joint posterior approximation function.
     \end{frame}
-
+    
     \begin{frame}{The PoE-VAE}
 
         \begin{itemize}
@@ -59,8 +119,8 @@
                 q_{\Phi}(z|x_{1:M})=\prod _m q_{\Phi_m}(z|x_m)
             \end{equation}
             \item Results in a good approximation of the joint distribution but struggles in optimizing the individual experts.
+            \item If one of the expert is miscalibrated (bad initialisation, overconfidence), it will perturb the whole joint distribution. 
         \end{itemize}
-
     \end{frame}
 
     \begin{frame}{The MoE-VAE}
@@ -169,28 +229,10 @@
                 \node at (90:2.3) [font=\Large] {Latent Representation};
             \end{tikzpicture}
         \end{figure}
-        
-        \onslide<+->{
-        
-        \begin{figure}[!h]
-            \centering
-            \begin{tikzpicture}
-
-                \begin{scope}[blend group = soft light]
-                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
-                    \fill[green!40!white] (0:-1) ellipse (3cm and 2cm);
-                    \fill[red!40!white]  (0:1) ellipse (3cm and 2cm);
-                \end{scope}
-                \node at (0:-2)   {"No Finding"};
-                \node at (0:2)   {"Finding"};
-                \node at (90:2.3) [font=\Large] {Latent Representation};
-            \end{tikzpicture}
-        \end{figure}  
-        }
 
     \end{frame}
     
-    \begin{frame}{}
+    \begin{frame}{Evaluation of the latent representation}
         \begin{figure}[!h]
             \centering
             \begin{tikzpicture}
@@ -212,7 +254,13 @@
         If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
     \end{frame}
 
-
+    \begin{frame}{Hyper-parameter Selection}
+        We used a simple grid search to find the best hyperparameters, retaining the parameter values that result in the best performance on the evaluation of the latent representation.\\
+        Namely, a value of 1 for the $\beta$ parameter and a class dimension of 512 gave the best separability of the latent space.
+        
+    \end{frame}
+    
+    
     \section{Results}
 
     \subsection{Generation Evaluation}
@@ -225,8 +273,7 @@
     }}
         \end{figure}
     \end{frame}
-
-
+    
 
     \printbibliography
 \end{document}
