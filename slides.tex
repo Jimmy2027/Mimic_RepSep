@@ -33,7 +33,18 @@
     \\
     \pause
     However, since the data belonging to different classes will be represented in a different manner in the learned latent representation of the model, the model can still be used for data classification.
-        
+    \end{frame}
+    
+    \begin{frame}{No need for labeled data}
+        \begin{itemize}
+            \item Model is trained to reconstruct the input image $\rightarrow$ no need for labels
+            \item Big advantage over other methods:
+            \begin{itemize}
+            \item In the medical domain, labeling data requires manual expert input
+            \item Labeled medical data is only a small subset of all the medical data available
+            \end{itemize}
+            \item Semantically close samples will be grouped together in the learned latent representaion\\ $\rightarrow$ can be used for classification.
+        \end{itemize}
     \end{frame}
     
         \begin{frame}{}
@@ -156,28 +167,31 @@
     \section{Methods}
 
     \subsection{The MIMIC-CXR Database}
-    \begin{frame}{The dataset}
-        The MIMIC-CXR Database \cite{johnson2019mimic} is a large publicly available dataset of chest radiographs with free-text radiology reports containing 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
-
+    \begin{frame}{The MIMIC-CXR Database}
+        \begin{itemize}
+            \item Published in \cite{johnson2019mimic}
+            \item Consists of:
+                \begin{itemize}
+                    \item Chest radiographs
+                    \item Text reports 
+                \end{itemize}
+            \item Total of 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
+        \end{itemize}
     \end{frame}
 
     \begin{frame}
         \py{pytex_fig('scripts/rand_sample_from_dataset.py', conf='slides/dataset.conf', label='dataset_samples', caption='Samples from the dataset.')}
     \end{frame}
 
-    \begin{frame}{The labels}
-        Since the multiple labels from the dataset are highly imbalanced, we created a label "Finding", indicating if the sample is labeled with any pathology.\\
-        There are \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
+    \begin{frame}{The Labels}
+    \begin{itemize}
+        \item Because the labels are highly unbalanced, we created a binary label "Finding".
+        \item This results in \py{boilerplate.print_finding_counts()} samples that are annotated with the "Finding" label in the training set and \py{boilerplate.print_nofinding_counts()} samples that are not.
+    \end{itemize}
     \end{frame}
 
-    \begin{frame}{The word encoding}
-        Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index.\\
-        Using this mapping each sentence is encoded into a sequence of indices.\\
-        The output of the decoder is in a one-hot-encoded format.
+    \begin{frame}{The word Encoding}
         
-        \pause
-        \vspace{\baselineskip}
-
         \small{
         "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
         \begin{bsmallmatrix}
@@ -186,21 +200,25 @@
             0 & 0 & 1 & 0\\
             0 & 0 & 0 & 1\\
         \end{bsmallmatrix}$
-        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."}
+        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."}\\
+        \vspace{\baselineskip}
+        \pause
+        \begin{itemize}
+            \item Every word that occurs at least \py{boilerplate.print_flag_attribute('word_min_occ')} times in all the text reports is mapped to an index. 
+            \pause
+            \item Using this mapping each sentence is encoded into a sequence of indices.
+            \pause
+            \item The output of the decoder is in a one-hot-encoded format.
+        \end{itemize}
     \end{frame}
 
     \subsection{The model architecture}
     \begin{frame}{The model}
-        The MoPoE-VAE has an encoder and decoder for each modality, in this work we used a ResNet type architecture for all encoders and decoders.
-    \end{frame}
-
-    \begin{frame}{Resnet}
-        Residual Neural Networks are a popular architecture for deep learning models.
-        Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
-        \begin{figure}
-            \includegraphics[width=0.3\textwidth, keepaspectratio]{slides/Residual_block}
-            \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
-        \end{figure}
+        \begin{itemize}
+            \item The MoPoE-VAE has an encoder and decoder for each modality (F, L and T).
+            \pause
+            \item In this work we used a ResNet type architecture for all encoders and decoders.
+        \end{itemize}
 
     \end{frame}
 
@@ -219,7 +237,7 @@
             \begin{tikzpicture}
 
                 \begin{scope}[blend group = soft light]
-                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                    \fill[blue!40!white]   (0:0) ellipse (6cm and 2.9cm);
                     \fill[green!40!white] (0:-2) ellipse (1.5cm and 2cm);
                     \fill[red!40!white]  (0:2) ellipse (1.5cm and 2cm);
                     \draw [-,ultra thick] (0,-1.5) -- (0,1.5);
@@ -227,6 +245,7 @@
                 \node at (0:-2)   {"No Finding"};
                 \node at (0:2)   {"Finding"};
                 \node at (90:2.3) [font=\Large] {Latent Representation};
+                \node at (-90:1.8) [font=\tiny] {Linear Classifier};
             \end{tikzpicture}
         \end{figure}
 
@@ -238,7 +257,7 @@
             \begin{tikzpicture}
 
                 \begin{scope}[blend group = soft light]
-                    \fill[blue!40!white]   (0:0) ellipse (6cm and 3cm);
+                    \fill[blue!40!white]   (0:0) ellipse (6cm and 2.9cm);
                     \fill[green!40!white] (0:-1) ellipse (3cm and 2cm);
                     \fill[red!40!white]  (0:1) ellipse (3cm and 2cm);
                 \end{scope}
@@ -250,14 +269,29 @@
     \end{frame}
 
     \begin{frame}{Evaluation of the generation coherence}
-        To evaluate the coherence of the generated samples, they are classified using trained ResNet classifiers.
-        If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
+    \begin{itemize}
+        \item The generated samples are classified using trained ResNet classifiers.
+        \pause
+        \item If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
+    \end{itemize}
     \end{frame}
-
+    
+    \subsection{Hyper-Parameter Selection}
     \begin{frame}{Hyper-Parameter Selection}
-        We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
-        Namely, a value of 1 for the $\beta$ parameter and a \hyperlink{mopoe_graph}{\textit{class dimension}} of 512 gave the best separability of the latent space.
-        
+        %We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
+        %Namely, a value of 1 for the $\beta$ parameter and a \hyperlink{mopoe_graph}{\textit{class dimension}} of 512 gave the best separability of the latent space.
+        \begin{center}
+        \begin{table}[]
+
+        \begin{tabular}{ c c c }
+         Parameter & Best Value & Search Space \\ 
+         \midrule
+         $\beta$ & \textbf{1.0} & [0.001, 0.01, 0.5, 1.0, 5, 20] \\  
+         \hyperlink{mopoe_graph}{\textit{class dimension}} & \textbf{512} & [32, 64, 96, 128, 256, 512]    
+        \end{tabular}
+        %\caption{\textbf{Table showing the results of the parameter grid search.}}
+        \end{table}
+        \end{center}
 
     \end{frame}
     
@@ -266,29 +300,43 @@
 
     \subsection{Evaluation of the Latent Representation}
     \begin{frame}{Mean AP for the MoPoE}
-        \py{
-            pytex_tab(
-            script='scripts/lr_table_bin.py',
-            label='lr_table_bin',
-            caption='\\small{ \\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifiers evaluated on the subspace containing all modalities achieves the highest mean average precision.}',
-            options_pre='\\centering \\small',
-            options_post='',
-                    )
-        }
+                \begin{table}
+                \centering
+            \begin{tabular}{llrrrrrrr}
+            MODEL & LABEL &      F &      L &      T &   L,F &    F,T &    L,T &  L,F,T \\
+            \midrule
+            MoPoE & Finding &  0.345 &  0.317 &  0.379 &  0.34 &  \textbf{0.396} &  0.394 &  0.395 \\
+            
+            \end{tabular}
+            \caption{\textbf{Mean AP values for the MoPoE}}
+            \end{table}\\
+    \pause
+    \small{\textbf{Note}: The frontal view is the most informative view for chest X-rays, according to radiologists (\cite{kovaleva2020towards}).}
     \end{frame}
-
-    \begin{frame}{Mean AP for the supervised method}
-        \py{
-    pytex_tab(
-    script='scripts/clf_table_bin.py',
-    label='clf_table_bin',
-    caption='\\small{\\textbf{Classification results of the supervised classifiers using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifier trained on the T modality achieves the highest score.}',
-    options_pre='\\centering \\small',
-    options_post='',
-    )
-}
+    
+    \begin{frame}{Supervised Method as comparison}
+            \begin{table}
+                \centering
+            \begin{tabular}{llrrrrrrr}
+            MODEL & LABEL &      F &      L &      T &   L,F &    F,T &    L,T &  L,F,T \\
+            \midrule
+            MoPoE & Finding &  0.345 &  0.317 &  0.379 &  0.34 &  \textbf{0.396} &  0.394 &  0.395 \\
+            
+            \end{tabular}
+            \caption{\textbf{Mean AP values for the MoPoE}}
+            \end{table}\\
+            
+                        \begin{table}[]
+                \centering
+            \begin{tabular}{llrrr}
+            MODEL & LABEL &      F &      L &      T       \\
+            \midrule
+            ResNet & Finding &  0.516 &  0.554 &  \textbf{0.574} \\
+            \end{tabular}
+            \caption{\textbf{Mean AP values for the supervised classifiers}}
+            \end{table}
     \end{frame}
-
+    
     \subsection{Generation Evaluation}
 
     \begin{frame}
@@ -304,7 +352,15 @@
     \end{frame}
 
     \begin{frame}
-        \begin{figure}
+            \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text_censored}
+                \caption{\tiny{
+        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the scans that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
+    }}
+    \end{figure}
+    \pause
+    \begin{figure}
             \centering
             \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text}
                 \caption{\tiny{
@@ -323,6 +379,17 @@
     \label{fig:fig_cond_latPAtext}
 \end{figure}
     \end{frame}
-
+    
     \printbibliography
+    
+    \section{Supplementary}
+    
+    \begin{frame}{Resnet}
+        Residual Neural Networks are a popular architecture for deep learning models.
+        Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
+        \begin{figure}
+            \includegraphics[width=0.3\textwidth, keepaspectratio]{slides/Residual_block}
+            \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
+        \end{figure}
+    \end{frame}
 \end{document}
