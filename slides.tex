@@ -255,7 +255,6 @@
         \begin{figure}[!h]
             \centering
             \begin{tikzpicture}
-
                 \begin{scope}[blend group = soft light]
                     \fill[blue!40!white]   (0:0) ellipse (6cm and 2.9cm);
                     \fill[green!40!white] (0:-1) ellipse (3cm and 2cm);
@@ -352,7 +351,69 @@
 }
     \end{frame}
 
-    \begin{frame}
+
+
+    
+    \begin{frame}{Conditionally generated samples with L and T modalities as conditioner.}
+
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
+    
+\end{figure}
+    \end{frame}
+    
+    \begin{frame}{Adding the F modality as conditioner}
+    \begin{figure}
+        \centering
+ \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
+\includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
+    \end{figure}
+   
+    
+    \end{frame}
+    
+    \section{Conclusion}
+    \begin{frame}{Conclusion}
+    We showed that:
+    \begin{itemize}
+        \item The MoPoE methods provides promising results when applied to medical data for:
+        \begin{itemize}
+            \item Classification
+            \item Generation
+        \end{itemize}
+    \item However, we also highlighted some problems that can still be addressed to improve the performance.
+    \end{itemize}
+    \end{frame}
+    
+    \begin{frame}{Future Work}
+    \begin{itemize}
+        \item Finding better architecture for the decoder and encoder parts.
+        \item Finding a better prior than the Gaussian distribution.
+        \item Trying state-of-the-art methods
+        \begin{itemize}
+            \item Vector Quantised-Variational AutoEncoder \footcite{oord2018neural}
+            \item Deep Hierarchical Variational Autoencoder \footcite{vahdat2021nvae}
+        \end{itemize}
+        
+    \end{itemize}
+
+    \end{frame}
+    
+    \printbibliography
+    
+    \section{Supplementary}
+    
+    \begin{frame}{Resnet}
+        Residual Neural Networks are a popular architecture for deep learning models.
+        Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
+        \begin{figure}
+            \includegraphics[width=0.3\textwidth, keepaspectratio]{slides/Residual_block}
+            \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
+        \end{figure}
+    \end{frame}
+    
+        \begin{frame}
             \begin{figure}
             \centering
             \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text_censored}
@@ -370,27 +431,12 @@
         \end{figure}
     \end{frame}
 
+    
     \begin{frame}
-        \begin{figure}
+    \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_PA_text}
-    \caption{\tiny{
-        \textbf{Conditionally generated samples with F, L and T modalities as conditioner.} While the generated images are blurry, they do present some features that can be found in the input samples.
-    }}
-    \label{fig:fig_cond_latPAtext}
-\end{figure}
-    \end{frame}
-    
-    \printbibliography
-    
-    \section{Supplementary}
-    
-    \begin{frame}{Resnet}
-        Residual Neural Networks are a popular architecture for deep learning models.
-        Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
-        \begin{figure}
-            \includegraphics[width=0.3\textwidth, keepaspectratio]{slides/Residual_block}
-            \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
-        \end{figure}
+    \caption{\textbf{Conditionally generated samples with F, L and T modalities as conditioner.}}
+    \end{figure}
     \end{frame}
 \end{document}
