@@ -167,17 +167,21 @@ def make_cond_gen_fig(nbr_samples=3):
                         m = nn.ZeroPad2d((64, 64, 0, 0))
                         img = m(img.squeeze()).unsqueeze(0).unsqueeze(0)
                     rec = torch.cat((rec, img), 0)
-        out_path = Path(mimic_experiment.flags.dir_cond_gen) / f'{in_mods}.png'
+
+        out_path = Path(mimic_experiment.flags.dir_cond_gen) / f'{in_mods}{"_small" if nbr_samples < 5 else ""}.png'
         log.info(f'Saving image to {out_path}')
+
         _ = mimic.utils.plot.create_fig(out_path,
                                         img_data=rec,
                                         num_img_row=nbr_samples, save_figure=True)
 
-    for in_mod in ['Lateral_PA_text', 'Lateral_text']:
-        # for in_mod in ['Lateral_text']:
-        create_cond_gen_plot(in_mod)
+    for in_mod in mimic_experiment.subsets:
+        if in_mod:
+            # for in_mod in ['Lateral_text']:
+            create_cond_gen_plot(in_mod)
 
 
 if __name__ == '__main__':
-    print(print_flag_attribute('initial_learning_rate'))
+    print(print_flag_attribute('vocab_size'))
     # print(print_lr())
+    # print(print_nofinding_counts())

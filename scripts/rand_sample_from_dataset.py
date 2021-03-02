@@ -52,4 +52,6 @@ ax3.set_title('Lateral view (L)',fontweight="bold")
 ax3.axis('off')
 
 plt.tight_layout(h_pad=3)
+
+# plt.savefig(Path(__file__).parent.parent / 'data/rand_dataset_sample.png' )
 # plt.show()
