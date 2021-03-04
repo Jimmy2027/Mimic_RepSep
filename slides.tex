@@ -323,11 +323,13 @@
     \end{frame}
 
     \begin{frame}{Evaluation of the generation coherence}
-        \begin{itemize}
-            \item The generated samples are classified using trained ResNet \footcite{he2016deep} classifiers.
-            \pause
-            \item If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
-        \end{itemize}
+    \begin{itemize}
+        \item The generated samples are classified using trained ResNet \footcite{he2016deep} classifiers.
+        \pause
+        \item If the modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
+    \end{itemize}
+
+
     \end{frame}
 
     \subsection{Hyper-Parameter Selection}
@@ -335,20 +337,19 @@
         %We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
         %Namely, a value of 1 for the $\beta$ parameter and a \hyperlink{mopoe_graph}{\textit{class dimension}} of 512 gave the best separability of the latent space.
         \begin{center}
-            \begin{table}[]
+        \begin{table}[]
 
-                \begin{tabular}{ c c c }
-                    Parameter                                                                                                 & Best Value   & Search Space                   \\
-                    \midrule
-                    $\beta$\footnote{\textbf{Loss:} $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot joint\_divergence $}
-                    & \textbf{1.0}
-                    & [0.001, 0.01, 0.5, 1.0, 5, 20]
-                    \\
-                    \hyperlink{mopoe_graph}{\textit{class dimension}}                                                         & \textbf{512} & [32, 64, 96, 128, 256, 512]    \\
-                    img size                                                                                                  & \textbf{128} & [64, 128, 256]
-                \end{tabular}
-                %\caption{\textbf{Table showing the results of the parameter grid search.}}
-            \end{table}
+        \begin{tabular}{ c c c }
+         Parameter & Best & Search Space \\ 
+         \midrule
+         $\beta$\footnote{\textbf{Loss:} $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot joint\_divergence $} & \textbf{1.0} & [0.001, 0.01, 0.5, 1.0, 5, 20] \\  
+         \hyperlink{mopoe_graph}{\textit{class dimension}} & \textbf{512} & [32, 64, 96, 128, 256, 512]\\
+         img size & \textbf{128} & [64, 128, 256]\\
+         encoder architecture & ResNet & [ResNet, Densenet (CheXNet \footcite{rajpurkar2017chexnet})]
+        \end{tabular}
+        %\caption{\textbf{Table showing the results of the parameter grid search.}}
+        \end{table}
+
         \end{center}
 
     \end{frame}
