@@ -166,7 +166,7 @@
     
 
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
-        The generalized multimodal ELBO utilises the PoE to get the posterior approximation of a subset $\xsubset$ from the powerset of all modalities:
+        The generalized multimodal ELBO utilises the PoE to get the posterior approximation of a subset $\xsubset$ from the powerset \footnote{$\mathbb{P}(P,L,T)=[(P); (L); (T); (L,P); (P,T); (L,T); (L,P,T)]$} of all modalities:
 
         \begin{equation}
             \tilde{q}_{\phi}(\textbf{z}|\xsubset)=PoE(\{q_{\phi_j}(\textbf{z}|\textbf{x}_j) \forall \textbf{x}_j \in \xsubset\}) \propto \prod _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)
@@ -424,8 +424,14 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
  \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
 \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
     \end{figure}
-   
+    \end{frame}
     
+    \begin{frame}{The model struggles to generate the T modality when it is not given}
+            \begin{figure}
+        \centering
+ \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_small_censored.png}
+\includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
+    \end{figure}
     \end{frame}
     
     \section{Conclusion}
@@ -444,7 +450,7 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
     \begin{frame}{Future Work}
     \begin{itemize}
         \item Finding better architecture for the decoder and encoder parts.
-        \item Finding a better prior than the Gaussian distribution.
+        \item Finding a better prior than the Gaussian distribution. \footcite{zhao2017towards}
         \item Trying state-of-the-art method such as
         \begin{itemize}
             \item Vector Quantised-Variational AutoEncoder \footcite{oord2018neural}
@@ -520,4 +526,6 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
         \end{itemize}
 
     \end{frame}
+    
+
 \end{document}
