@@ -9,11 +9,12 @@ import numpy as np
 import pandas as pd
 
 from scripts.utils import bold_max_value
+from prepare.utils import get_config
 
 
-def df_builder(labels, lr_eval_results, mods):
+def df_builder(labels, lr_eval_results, mods, metric: str):
     for label in labels:
-        label_row = {'MODEL': 'MoPoE', 'LABEL': label}
+        label_row = {'MODEL': 'MoPoE', 'Metric': metric}
         for col, score in lr_eval_results.items():
             sub_mods = col.replace('_', ',')
             for k, v in mods.items():
@@ -40,12 +41,17 @@ def print_lr_table(bin_labels: bool):
     for L in range(1, len(mods) + 1):
         for subset in combinations(mods, L):
             subsets.append(''.join(subset))
+    config = get_config()
 
-    df = pd.DataFrame(df_builder(labels, lr_eval_results, mods))
+    df = pd.DataFrame(df_builder(labels, lr_eval_results, mods, config['eval_metric']))
 
-    df.set_index(['MODEL', 'LABEL'], inplace=True)
-    df.sort_index(inplace=True)
+    # df.set_index(['MODEL', 'LABEL'], inplace=True)
+    # df.sort_index(inplace=True)
+    #
+    # df_tex = df.to_latex(escape=False)
 
-    df_tex = df.to_latex(escape=False)
+    df = df.reset_index(drop=True)
+    df_tex = df.to_latex(index=False, escape=False)
 
-    print(bold_max_value(df, df_tex))
+    # print(bold_max_value(df, df_tex))
+    print(df_tex)

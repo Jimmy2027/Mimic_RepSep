@@ -1,6 +1,7 @@
 # HK, 12.02.21
 import json
 import os
+import random
 import typing
 from pathlib import Path
 from typing import Mapping
@@ -19,6 +20,7 @@ from utils import Dummylogger
 from utils import get_config
 from utils import set_paths
 
+
 def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[str, float]]:
     """
     Test the classifiers that were trained on latent representations.
@@ -32,7 +34,7 @@ def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[s
 
     test_set = Mimic(args, exp.labels, split='test')
 
-    d_loader = DataLoader(test_set, batch_size=exp.flags.batch_size, shuffle=True, num_workers=0, drop_last=False)
+    d_loader = DataLoader(test_set, batch_size=exp.flags.batch_size, shuffle=False, num_workers=0, drop_last=False)
 
     if exp.flags.steps_per_training_epoch > 0:
         training_steps = exp.flags.steps_per_training_epoch
@@ -71,6 +73,13 @@ def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[s
 
 def eval_vae_lr():
     config = get_config()
+
+    # set seed
+    SEED = config['seed']
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    random.seed(SEED)
+
     experiment_dir = config['experiment_dir']
     experiment_path = Path(os.getcwd()) / f'data/vae_model/{experiment_dir}'
     flags_path = experiment_path / 'flags.rar'
@@ -79,7 +88,7 @@ def eval_vae_lr():
     FLAGS.dir_cond_gen = Path(__file__).parent.parent / 'data/cond_gen'
     FLAGS.text_gen_lastlayer = 'softmax'
 
-    FLAGS = set_paths(FLAGS)
+    FLAGS = set_paths(FLAGS, config)
     FLAGS.use_clf = False
     FLAGS.batch_size = 30
     state_dict_path = experiment_path / 'checkpoints/0149/mm_vae'
@@ -100,7 +109,8 @@ def eval_vae_lr():
                 # calculate metrics
                 metrics = Metrics(predictions[subset], gt, str_labels=get_labels(FLAGS.binary_labels))
                 metrics_dict = metrics.evaluate()
-                results[subset] = metrics_dict['mean_AP_Finding'][0]
+                results[subset] = metrics_dict[config['eval_metric']][0]
+                print(subset, ':', metrics_dict[config['eval_metric']][0])
 
     log.info(f'Lr eval results: {results}')
 

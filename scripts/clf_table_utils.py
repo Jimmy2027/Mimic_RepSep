@@ -30,10 +30,10 @@ class Params():
 
 def df_builder(labels, experiment_df, experiment_uids, mods):
     exp_rows = {mod: experiment_df.loc[experiment_df['experiment_uid'] == experiment_uids[mod]] for mod in mods}
-    for label in labels:
-        label_row = {'MODEL': 'ResNet', 'LABEL': label}
+    for metric in ['mean_AP_Finding', 'specificity', 'accuracy']:
+        label_row = {'MODEL': 'ResNet', 'Metric': metric}
         for mod in mods:
-            label_row[mod_to_modsymbol[mod]] = exp_rows[mod][f'mean_AP_{label}'].round(decimals=3).item()
+            label_row[mod_to_modsymbol[mod]] = exp_rows[mod][metric].round(decimals=3).item()
 
         yield label_row
 
@@ -85,12 +85,12 @@ def print_clf_table(bin_labels: bool):
             subsets.append(''.join(subset))
 
     df = pd.DataFrame(df_builder(labels, experiment_df, experiment_uids, mods))
-    df.set_index(['MODEL', 'LABEL'], inplace=True)
+    df.set_index(['MODEL'], inplace=True)
     df.sort_index(inplace=True)
 
     df_tex = df.to_latex(escape=False)
-    print(bold_max_value(df,df_tex))
-
+    print(bold_max_value(df, df_tex))
+    print(df_tex)
 
 if __name__ == '__main__':
     print_clf_table(bin_labels=True)

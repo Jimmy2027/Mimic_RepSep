@@ -3,5 +3,7 @@
   "experiment_dir_bin": "binary_labels-True_beta-1.0_weighted_sampler-False_class_dim-512_text_gen_lastlayer-softmax_2021_02_13_01_58_35_713926",
   "seed": 1,
   "dir_clf": "trained_classifiers_final",
-  "dir_data": "/mnt/data/hendrik/mimic_scratch"
+  "dir_data": "/mnt/data/hendrik/mimic_scratch",
+  "eval_metric_": "mean_AP_Finding",
+  "eval_metric": "accuracy"
 }

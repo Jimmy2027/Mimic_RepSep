@@ -25,7 +25,7 @@ def write_to_config(values: dict):
 
 
 def get_config() -> dict:
-    config_path = Path(os.getcwd()) / f'configs/{get_config_path()}.json'
+    config_path = Path(__file__).parent.parent / f'configs/{get_config_path()}.json'
     with open(config_path, 'r') as json_file:
         config = json.load(json_file)
     return config
