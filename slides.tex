@@ -17,62 +17,62 @@
     \end{frame}
 
     \subsection{Multimodal, Unsupervised, Generative models}
-    
+
     \begin{frame}{Self-supervised, multimodal, generative learning?}
-        \resizebox{\textwidth}{!}{% 
-\begin{tikzpicture}[modalities/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=5mm,  minimum width=10mm}]
-        \node[modalities] (input_text) {Text};
-        \node[modalities, below of=input_text] (input_F) {F-Img};
-        \node[modalities, below of=input_F] (input_L) {L-Img};
-        \node[model, right of=input_F, xshift=2cm] (encoder) {Encoder};
-        \node[lr, right of=encoder, xshift=3cm, align=center] (lr) {Latent\\ Representation  \footnote{Assumed to be Gaussian distributed}};
-        \node[model, right of=lr, xshift=3cm] (decoder) {Decoder};
-        \node[modalities, right of=decoder, xshift=2cm] (out_F) {F-Img};
-        \node[modalities, below of=out_F] (out_L) {L-Img};
-        \node[modalities, above of=out_F] (out_text) {Text};
-        \draw[->] (input_text) -- (encoder);
-        \draw[->] (input_F) -- (encoder);
-        \draw[->] (input_L) -- (encoder);
-        \draw[->] (encoder) -- (lr);
-        \draw[->] (lr) -- (decoder);
-        \draw[->] (decoder) -- (out_F);
-        \draw[->] (decoder) -- (out_text);
-        \draw[->] (decoder) -- (out_L);
-        \end{tikzpicture}}
+        \resizebox{\textwidth}{!}{%
+            \begin{tikzpicture}[modalities/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=5mm,  minimum width=10mm}]
+                \node[modalities] (input_text) {Text};
+                \node[modalities, below of=input_text] (input_F) {F-Img};
+                \node[modalities, below of=input_F] (input_L) {L-Img};
+                \node[model, right of=input_F, xshift=2cm] (encoder) {Encoder};
+                \node[lr, right of=encoder, xshift=3cm, align=center] (lr) {Latent\\ Representation  \footnote{Assumed to be Gaussian distributed}};
+                \node[model, right of=lr, xshift=3cm] (decoder) {Decoder};
+                \node[modalities, right of=decoder, xshift=2cm] (out_F) {F-Img};
+                \node[modalities, below of=out_F] (out_L) {L-Img};
+                \node[modalities, above of=out_F] (out_text) {Text};
+                \draw[->] (input_text) -- (encoder);
+                \draw[->] (input_F) -- (encoder);
+                \draw[->] (input_L) -- (encoder);
+                \draw[->] (encoder) -- (lr);
+                \draw[->] (lr) -- (decoder);
+                \draw[->] (decoder) -- (out_F);
+                \draw[->] (decoder) -- (out_text);
+                \draw[->] (decoder) -- (out_L);
+            \end{tikzpicture}}
     \end{frame}
 
     \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
-    \large{The advantages:}
-    \pause
+        \large{The advantages:}
+        \pause
         \begin{itemize}
             \item No need for labeled data
         \end{itemize}
     \end{frame}
-    
+
     \begin{frame}{No need for labeled data}
         \begin{itemize}
             \item Model is trained to reconstruct the input image $\rightarrow$ no need for labels
             \item Big advantage over other methods:
             \begin{itemize}
-            \item In the medical domain, labeling data requires manual expert input
-            \item Labeled medical data is only a small subset of all the medical data available
+                \item In the medical domain, labeling data requires manual expert input
+                \item Labeled medical data is only a small subset of all the medical data available
             \end{itemize}
         \end{itemize}
     \end{frame}
-    
 
-    
-        \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
+
+
+    \begin{frame}{Multimodal, Unsupervised Generative Learning On Medical Data}
         \large{The advantages:}
         \begin{itemize}
             \item No need for labeled data
             \item Can extract features and generate from multiple modalities that exist in the medical domain:
             \pause
-                \begin{itemize}
-                    \item Radiographs from multiple angles or different imaging technologies
-                    \item Text reports
-                    \item Electronic health records
-                \end{itemize}
+            \begin{itemize}
+                \item Radiographs from multiple angles or different imaging technologies
+                \item Text reports
+                \item Electronic health records
+            \end{itemize}
             \pause
             \item Can \textbf{generate} \textit{coherent} samples
             \pause
@@ -82,78 +82,79 @@
             \end{itemize}
         \end{itemize}
     \end{frame}
-    
-            \begin{frame}{Samples belonging to the same class will be "close" in the latent space}
+
+    \begin{frame}{Samples belonging to the same class will be "close" in the latent space}
         \begin{figure}
             \centering
 
             \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=20mm, minimum width=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=30mm,  minimum width=60mm},t/.style={ellipse, draw=green!60, fill=green!5, very thick, minimum size=5mm},front/.style={ellipse, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},]
-            	\node[t] (cl1) {class 1};
-            	%\node[front, below of=cl1] (cl2) {class 1};
-            	\node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
-            	\node[lr, right of=model, xshift=4cm] (lr) {};
-            	\node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
-            		\node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
-            
-            	%\node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
-            	\draw[->,green!60] (cl1) -- (model);
-            	%\draw[->,orange!60] (cl2) -- (model);
-            	\draw[->,green!60] (model) -- (cl1_);
-            	%\draw[->,orange!60] (model) -- (cl2_);
+                \node[t] (cl1) {class 1};
+                %\node[front, below of=cl1] (cl2) {class 1};
+                \node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
+                \node[lr, right of=model, xshift=4cm] (lr) {};
+                \node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
+                \node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
+
+                %\node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
+                \draw[->,green!60] (cl1) -- (model);
+                %\draw[->,orange!60] (cl2) -- (model);
+                \draw[->,green!60] (model) -- (cl1_);
+                %\draw[->,orange!60] (model) -- (cl2_);
             \end{tikzpicture}
         \end{figure}
 
-        \end{frame}
-    
-    
-     \begin{frame}{Samples belonging to the same class will be "close" in the latent space}
-            \begin{figure}
+    \end{frame}
+
+
+    \begin{frame}{Samples belonging to the same class will be "close" in the latent space}
+        \begin{figure}
             \centering
-        \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=20mm, minimum width=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=30mm,  minimum width=60mm},t/.style={ellipse, draw=green!60, fill=green!5, very thick, minimum size=5mm},front/.style={ellipse, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},]
-	\node[t] (cl1) {class 1};
-	\node[front, below of=cl1] (cl2) {class 2};
-	\node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
-	\node[lr, right of=model, xshift=4cm] (lr) {};
-	\node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
-	\node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
-	\node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
-	\draw[->,green!60] (cl1) -- (model);
-	\draw[->,orange!60] (cl2) -- (model);
-	\draw[->,green!60] (model) -- (cl1_);
-	\draw[->,orange!60] (model) -- (cl2_);
-\end{tikzpicture}
+            \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=20mm, minimum width=20mm},lr/.style={ellipse, draw=blue!60, fill=blue!5, very thick, minimum height=30mm,  minimum width=60mm},t/.style={ellipse, draw=green!60, fill=green!5, very thick, minimum size=5mm},front/.style={ellipse, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},]
+                \node[t] (cl1) {class 1};
+                \node[front, below of=cl1] (cl2) {class 2};
+                \node[model, right of=cl1, xshift=2cm, yshift=-0.5cm] (model) {Model};
+                \node[lr, right of=model, xshift=4cm] (lr) {};
+                \node[right of=model, xshift=4cm, yshift=0.85cm] (lr_string) {\textbf{Latent Representation}};
+                \node[t, right of=lr, xshift=-1.8cm, yshift = -0.5cm] (cl1_) {class 1};
+                \node[front, right of=lr, xshift=0.9cm, yshift = 0.3cm] (cl2_) {class 2};
+                \draw[->,green!60] (cl1) -- (model);
+                \draw[->,orange!60] (cl2) -- (model);
+                \draw[->,green!60] (model) -- (cl1_);
+                \draw[->,orange!60] (model) -- (cl2_);
+            \end{tikzpicture}
         \end{figure}
 
     \end{frame}
-    
+
     \begin{frame}{Example Applications}
-    \begin{itemize}
-        \pause
-        \item Relieve doctors from the tedious task of writing summary text report by generating it.
-        \pause
         \begin{itemize}
-            \item They can then focus on more important tasks.
+            \pause
+            \item Relieve doctors from the tedious task of writing summary text report by generating it.
+            \pause
+            \begin{itemize}
+                \item They can then focus on more important tasks.
+            \end{itemize}
+            \pause
+            \item Generating a lateral view image from a frontal view one or vice versa.
+            \pause
+            \begin{itemize}
+                \item Reduce cost for each patient
+                \item Reduce radiation in the case of X-ray imaging
+            \end{itemize}
+            \pause
+            \item The classification ability could support the judgement of a clinician.
         \end{itemize}
-        \pause
-        \item Generating a lateral view image from a frontal view one or vice versa.
-        \pause
-        \begin{itemize}
-            \item Reduce cost for each patient
-            \item Reduce radiation in the case of X-ray imaging
-        \end{itemize}
-        \pause
-        \item The classification ability could support the judgement of a clinician.
-    \end{itemize}
-        
+
     \end{frame}
-    
+
+
     \section{Background}
 
     \subsection{The MoPoE-VAE (\cite{thomas_gener-ELBO})}
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
         The multimodal aspect has many advantages, but \textbf{combining the learned distributions for each modality is still an open problem}.
     \end{frame}
-    
+
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
         Combination of:
         \begin{itemize}
@@ -163,7 +164,7 @@
         \vspace{\baselineskip}
         Both present a different choice for the joint posterior approximation function.
     \end{frame}
-    
+
 
     \begin{frame}{The Mixture-of-Products-of-Experts-VAE}
         The generalized multimodal ELBO utilises the PoE to get the posterior approximation of a subset $\xsubset$ from the powerset \footnote{$\mathbb{P}(P,L,T)=[(P); (L); (T); (L,P); (P,T); (L,T); (L,P,T)]$} of all modalities:
@@ -179,32 +180,32 @@
 
     \begin{frame}[label={mopoe_graph}]
 
-        \resizebox{\textwidth}{!}{% 
-\begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=40mm, minimum width=20mm},t/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},lat/.style={rectangle, draw=blue!60, fill=blue!5, very thick, minimum size=5mm},front/.style={rectangle, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},lr/.style={circle, draw=gray!60, fill=gray!5, very thick, minimum size=5mm},]
-        \node[t] (input_text) {Text};
-        \node[front, below of=input_text] (input_F) {F-Img};
-        \node[lat, below of=input_F] (input_L) {L-Img};
-        \node[model, right of=input_F, xshift=1cm] (encoder) {Encoder};
-        \node[model, right of=encoder, xshift=3cm, align=center] (poe) {\textbf{PoE}\\ \vspace{\baselineskip}\\ $\prod \limits _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)$};
-        \node[ right of=poe, xshift=1cm] (points) {\ldots};
-        \node[model, right of=points, xshift=1.5cm, align=center] (moe) {\textbf{MoE}\\ \vspace{\baselineskip}\\ $\frac{1}{2^3} \sum \limits _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)$};
-        \node[lr,right of=moe, xshift=3cm, align=center] (z) {joint\\ posterior};
-        \draw[->] (input_text) -- (encoder);
-        \draw[->] (input_F) -- (encoder);
-        \draw[->] (input_L) -- (encoder);
-        \draw[->] ([yshift=--1.8cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\mu_0$}} ([yshift=--1.8cm]poe.west);
-        \draw[->] ([yshift=--1.08cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\sigma_0$}} ([yshift=--1.08cm]poe.west);
-        \draw[->] ([yshift=--0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\mu_1$}} ([yshift=--0.3600000000000001cm]poe.west);
-        \draw[->] ([yshift=-0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\sigma_1$}} ([yshift=-0.3600000000000001cm]poe.west);
-        \draw[->] ([yshift=-1.0799999999999998cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\mu_2$}} ([yshift=-1.0799999999999998cm]poe.west);
-        \draw[->] ([yshift=-1.8cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\sigma_2$}} ([yshift=-1.8cm]poe.west);
-        \draw[->] ([yshift=--1.8cm]poe.east) -- node[anchor=south] {$\mu ^\prime_0$} ([yshift=--1.8cm]moe.west);
-        \draw[->] ([yshift=--1.08cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_0$} ([yshift=--1.08cm]moe.west);
-        \draw[->] ([yshift=-1.0799999999999998cm]poe.east) -- node[anchor=south] {$\mu ^\prime_7$} ([yshift=-1.0799999999999998cm]moe.west);
-        \draw[->] ([yshift=-1.8cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_7$} ([yshift=-1.8cm]moe.west);
-        \draw[->] ([yshift=-1cm]moe.east) -- node[anchor=south] {$\mu$} ([yshift=-5mm]z.west);
-        \draw[->] ([yshift=1cm]moe.east) -- node[anchor=south] {$\sigma$} ([yshift=5mm]z.west);
-\end{tikzpicture}}
+        \resizebox{\textwidth}{!}{%
+            \begin{tikzpicture}[model/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum height=40mm, minimum width=20mm},t/.style={rectangle, draw=green!60, fill=green!5, very thick, minimum size=5mm},lat/.style={rectangle, draw=blue!60, fill=blue!5, very thick, minimum size=5mm},front/.style={rectangle, draw=orange!60, fill=orange!5, very thick, minimum size=5mm},lr/.style={circle, draw=gray!60, fill=gray!5, very thick, minimum size=5mm},]
+                \node[t] (input_text) {Text};
+                \node[front, below of=input_text] (input_F) {F-Img};
+                \node[lat, below of=input_F] (input_L) {L-Img};
+                \node[model, right of=input_F, xshift=1cm] (encoder) {Encoder};
+                \node[model, right of=encoder, xshift=3cm, align=center] (poe) {\textbf{PoE}\\ \vspace{\baselineskip}\\ $\prod \limits _{\textbf{x}_j \in \xsubset}q_{\phi_j}(\textbf{z}|\textbf{x}_j)$};
+                \node[ right of=poe, xshift=1cm] (points) {\ldots};
+                \node[model, right of=points, xshift=1.5cm, align=center] (moe) {\textbf{MoE}\\ \vspace{\baselineskip}\\ $\frac{1}{2^3} \sum \limits _{\textbf{x}_k \in \mathbb{X}} \tilde{q}_{\phi} (\textbf{z}|\mathbb{X}_k)$};
+                \node[lr,right of=moe, xshift=3cm, align=center] (z) {joint\\ posterior};
+                \draw[->] (input_text) -- (encoder);
+                \draw[->] (input_F) -- (encoder);
+                \draw[->] (input_L) -- (encoder);
+                \draw[->] ([yshift=--1.8cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\mu_0$}} ([yshift=--1.8cm]poe.west);
+                \draw[->] ([yshift=--1.08cm]encoder.east) -- node[anchor=south] {\textcolor{green}{$\sigma_0$}} ([yshift=--1.08cm]poe.west);
+                \draw[->] ([yshift=--0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\mu_1$}} ([yshift=--0.3600000000000001cm]poe.west);
+                \draw[->] ([yshift=-0.3600000000000001cm]encoder.east) -- node[anchor=south] {\textcolor{orange}{$\sigma_1$}} ([yshift=-0.3600000000000001cm]poe.west);
+                \draw[->] ([yshift=-1.0799999999999998cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\mu_2$}} ([yshift=-1.0799999999999998cm]poe.west);
+                \draw[->] ([yshift=-1.8cm]encoder.east) -- node[anchor=south] {\textcolor{blue}{$\sigma_2$}} ([yshift=-1.8cm]poe.west);
+                \draw[->] ([yshift=--1.8cm]poe.east) -- node[anchor=south] {$\mu ^\prime_0$} ([yshift=--1.8cm]moe.west);
+                \draw[->] ([yshift=--1.08cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_0$} ([yshift=--1.08cm]moe.west);
+                \draw[->] ([yshift=-1.0799999999999998cm]poe.east) -- node[anchor=south] {$\mu ^\prime_7$} ([yshift=-1.0799999999999998cm]moe.west);
+                \draw[->] ([yshift=-1.8cm]poe.east) -- node[anchor=south] {$\sigma ^\prime_7$} ([yshift=-1.8cm]moe.west);
+                \draw[->] ([yshift=-1cm]moe.east) -- node[anchor=south] {$\mu$} ([yshift=-5mm]z.west);
+                \draw[->] ([yshift=1cm]moe.east) -- node[anchor=south] {$\sigma$} ([yshift=5mm]z.west);
+            \end{tikzpicture}}
 
     \end{frame}
 
@@ -212,54 +213,54 @@
     \section{Methods}
 
     \subsection{The MIMIC-CXR Database}
-    
+
     \begin{frame}{The MIMIC-CXR Database}
-    \pause
+        \pause
         \begin{itemize}
             \item Published in \cite{johnson2019mimic}
             \item Consists of:
-                \begin{itemize}
-                    \item Chest radiographs
-                    \item Text reports 
-                \end{itemize}
+            \begin{itemize}
+                \item Chest radiographs
+                \item Text reports
+            \end{itemize}
             \item Total of 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
         \end{itemize}
     \end{frame}
 
     \begin{frame}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.6\textwidth]{data/rand_dataset_sample.png}
-    \end{figure}
-    
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth]{data/rand_dataset_sample.png}
+        \end{figure}
+
     \end{frame}
 
     \begin{frame}{The Labels}
-    \pause
-    \begin{itemize}
-        \item Because the labels are highly unbalanced, we created a binary label "Finding".
+        \pause
         \begin{itemize}
-            \item If sample presents any pathology $\rightarrow$ finding = True, else False
+            \item Because the labels are highly unbalanced, we created a binary label "Finding".
+            \begin{itemize}
+                \item If sample presents any pathology $\rightarrow$ finding = True, else False
+            \end{itemize}
+            \item This results in 14529 samples that are annotated with the "Finding" label in the training set and 47218 samples that are not.
         \end{itemize}
-        \item This results in 14529 samples that are annotated with the "Finding" label in the training set and 47218 samples that are not.
-    \end{itemize}
     \end{frame}
 
     \begin{frame}{The word Encoding}
-        
+
         \small{
-        "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
-        \begin{bsmallmatrix}
-            1 & 0 & 0 & 0\\
-            0 & 1 & 0 & 0\\
-            0 & 0 & 1 & 0\\
-            0 & 0 & 0 & 1\\
-        \end{bsmallmatrix}$
-        $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."}\\
+            "Heart size is normal." $\rightarrow [0,1,2,3] \rightarrow$ Model $\rightarrow
+            \begin{bsmallmatrix}
+                1 & 0 & 0 & 0\\
+                0 & 1 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 1\\
+            \end{bsmallmatrix}$
+            $\rightarrow [0,1,2,3] \rightarrow$ "Heart size is normal."}\\
         \vspace{\baselineskip}
         \pause
         \begin{itemize}
-            \item Every word that occurs at least 3 times in all the text reports is mapped to an index. 
+            \item Every word that occurs at least 3 times in all the text reports is mapped to an index.
             \pause
             \item Using this mapping each sentence is encoded into a sequence of indices.
             \pause
@@ -277,14 +278,14 @@
     \end{frame}
 
     \subsection{Evaluation methods}
-    
+
     \begin{frame}{Evaluation Methods}
         \begin{itemize}
             \item Evaluation of the separability of the latent representation
             \item Evaluation of the generation coherence
         \end{itemize}
     \end{frame}
-    
+
     \begin{frame}{Evaluation of the latent representation}
         \begin{figure}[!h]
             \centering
@@ -304,7 +305,7 @@
         \end{figure}
 
     \end{frame}
-    
+
     \begin{frame}{Evaluation of the latent representation}
         \begin{figure}[!h]
             \centering
@@ -318,153 +319,151 @@
                 \node at (0:2)   {"Finding"};
                 \node at (90:2.3) [font=\Large] {Latent Representation};
             \end{tikzpicture}
-        \end{figure}    
+        \end{figure}
     \end{frame}
 
     \begin{frame}{Evaluation of the generation coherence}
-    \begin{itemize}
-        \item The generated samples are classified using trained ResNet \footcite{he2016deep} classifiers.
-        \pause
-        \item If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
-    \end{itemize}
+        \begin{itemize}
+            \item The generated samples are classified using trained ResNet \footcite{he2016deep} classifiers.
+            \pause
+            \item If all modalities of a sample, generated and given as conditioner, are classified as having the same label, they are considered coherent.
+        \end{itemize}
     \end{frame}
-    
+
     \subsection{Hyper-Parameter Selection}
     \begin{frame}{Hyper-Parameter Selection}
         %We used a simple grid search to find the best hyperparameters, retaining the parameter values that resulted in the best performance on the evaluation of the latent representation.\\
         %Namely, a value of 1 for the $\beta$ parameter and a \hyperlink{mopoe_graph}{\textit{class dimension}} of 512 gave the best separability of the latent space.
         \begin{center}
-        \begin{table}[]
+            \begin{table}[]
 
-        \begin{tabular}{ c c c }
-         Parameter & Best Value & Search Space \\ 
-         \midrule
-         $\beta$\footnote{\textbf{Loss:} $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot joint\_divergence $} & \textbf{1.0} & [0.001, 0.01, 0.5, 1.0, 5, 20] \\  
-         \hyperlink{mopoe_graph}{\textit{class dimension}} & \textbf{512} & [32, 64, 96, 128, 256, 512]\\
-         img size & \textbf{128} & [64, 128, 256]
-        \end{tabular}
-        %\caption{\textbf{Table showing the results of the parameter grid search.}}
-        \end{table}
+                \begin{tabular}{ c c c }
+                    Parameter                                                                                                 & Best Value   & Search Space                   \\
+                    \midrule
+                    $\beta$\footnote{\textbf{Loss:} $\sum_m^{\#mods} w_m \cdot log\_prob_m + \beta \cdot joint\_divergence $}
+                    & \textbf{1.0}
+                    & [0.001, 0.01, 0.5, 1.0, 5, 20]
+                    \\
+                    \hyperlink{mopoe_graph}{\textit{class dimension}}                                                         & \textbf{512} & [32, 64, 96, 128, 256, 512]    \\
+                    img size                                                                                                  & \textbf{128} & [64, 128, 256]
+                \end{tabular}
+                %\caption{\textbf{Table showing the results of the parameter grid search.}}
+            \end{table}
         \end{center}
 
     \end{frame}
-    
-    
+
+
     \section{Results}
 
     \subsection{Evaluation of the Latent Representation}
-    
+
     \begin{frame}{Mean AP for the MoPoE}
-            \begin{table}
-            \centering
-            \begin{tabular}{llrrrrrrr}
-            MODEL & LABEL &      F &      L &      T &   L,F &    F,T &    L,T &  L,F,T \\
-            \midrule
-            MoPoE & Finding &  0.345 &  0.317 &  0.379 &  0.34 &  \textbf{0.396} &  0.394 &  0.395 \\
-            
-            \end{tabular}
-            \caption{\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding". The mean average precision over the test set
-is reported for each modality (F: frontal image, L: lateral image, T: text report).}}
-            \end{table}
-    \pause
-    \small{\textbf{Note}: The frontal view is the most informative view for chest X-rays, according to radiologists (\cite{kovaleva2020towards}).}
+        \py{
+            pytex_tab(
+            script='scripts/lr_table_bin.py',
+            label='lr_table_bin',
+            caption='\\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding". The mean average precision over the test set
+            is reported for each modality (F: frontal image, L: lateral image, T: text report).}',
+            options_post='',
+            )
+        }
+        \pause
+        \small{\textbf{Note}: The frontal view is the most informative view for chest X-rays, according to radiologists (\cite{kovaleva2020towards}).}
     \end{frame}
-    
+
     \begin{frame}{Comparison with the ResNet classifiers}
-            \begin{table}
-                \centering
-            \begin{tabular}{llrrrrrrr}
-            MODEL & LABEL &      F &      L &      T &   L,F &    F,T &    L,T &  L,F,T \\
-            \midrule
-            MoPoE & Finding &  0.345 &  0.317 &  0.379 &  0.34 &  \textbf{0.396} &  0.394 &  0.395 \\
-            
-            \end{tabular}
-            \caption{\textbf{Classification results of the linear classifiers trained on the learned latent representation}}
-            \end{table}
-            
-                        \begin{table}[]
-                \centering
-            \begin{tabular}{llrrr}
-            MODEL & LABEL &      F &      L &      T       \\
-            \midrule
-            ResNet & Finding &  0.516 &  0.554 &  \textbf{0.574} \\
-            \end{tabular}
-            \caption{\textbf{Mean AP values for the ResNet classifiers}}
-            \end{table}
+        \py{
+            pytex_tab(
+            script='scripts/lr_table_bin.py',
+            caption='\\textbf{Classification results of the linear classifiers trained on the learned latent representation.}',
+            options_post='',
+            )
+        }
+
+        \py{
+            pytex_tab(
+            script='scripts/clf_table_bin.py',
+            caption='\\textbf{Mean AP values for the supervised classifiers.}',
+            options_post='',
+            )
+        }
     \end{frame}
-    
+
     \subsection{Generation Evaluation}
 
     \begin{frame}
-    \begin{table}[]
-        \centering
-\begin{tabular}{lcccccccccc}
-
-      &         & \multicolumn{3}{c}{F} & \multicolumn{3}{c}{L,F} & \multicolumn{3}{c}{L,F,T} \\  \cmidrule(l){3-5} \cmidrule(l){6-8} \cmidrule(l){9-11} MODEL &    LABEL     &         F &         L &         T &         F &         L &         T &         F &         L &         T \\\midrule
-MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &  0.574 &  0.524 &  0.495 
-\end{tabular}
-        \caption{\small{\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.}}
-    \end{table}
-
+        \py{
+            pytex_tab(
+            script='scripts/gen_eval_table.py',
+            label='gen_eval_table',
+            caption='\\small{\\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.}',
+            options_pre='\\centering \\small',
+            options_post='',
+            )
+        }
     \end{frame}
 
-    
+
+
     \begin{frame}{Conditionally generated samples with L and T modalities as conditioner.}
 
-    \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
-    
-\end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
+
+        \end{figure}
     \end{frame}
-    
+
     \begin{frame}{Adding the F modality as conditioner}
-    \begin{figure}
-        \centering
- \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
-\includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
-    \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_text_blacked.png}
+            \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
+        \end{figure}
     \end{frame}
-    
+
     \begin{frame}{The model struggles to generate the T modality when it is not given}
-            \begin{figure}
-        \centering
- \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_small_censored.png}
-\includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
-    \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_small_censored.png}
+            \includegraphics[width=0.6\textwidth, height = 0.85\textheight, keepaspectratio]{slides/cond_gen/Lateral_PA_text.png}
+        \end{figure}
     \end{frame}
-    
+
+
     \section{Conclusion}
     \begin{frame}{Conclusion}
-    We showed that:
-    \begin{itemize}
-        \item The MoPoE method provides promising results when applied to medical data for:
+        We showed that:
         \begin{itemize}
-            \item Classification
-            \item Generation
+            \item The MoPoE method provides promising results when applied to medical data for:
+            \begin{itemize}
+                \item Classification
+                \item Generation
+            \end{itemize}
+            \item However, we also highlighted some problems that can still be addressed to improve the performance.
         \end{itemize}
-    \item However, we also highlighted some problems that can still be addressed to improve the performance.
-    \end{itemize}
     \end{frame}
-    
+
     \begin{frame}{Future Work}
-    \begin{itemize}
-        \item Finding better architecture for the decoder and encoder parts.
-        \item Finding a better prior than the Gaussian distribution. \footcite{zhao2017towards}
-        \item Trying state-of-the-art method such as
         \begin{itemize}
-            \item Vector Quantised-Variational AutoEncoder \footcite{oord2018neural}
-            \item Deep Hierarchical Variational AutoEncoder \footcite{vahdat2021nvae}
+            \item Finding better architecture for the decoder and encoder parts.
+            \item Finding a better prior than the Gaussian distribution. \footcite{zhao2017towards}
+            \item Trying state-of-the-art method such as
+            \begin{itemize}
+                \item Vector Quantised-Variational AutoEncoder \footcite{oord2018neural}
+                \item Deep Hierarchical Variational AutoEncoder \footcite{vahdat2021nvae}
+            \end{itemize}
+
         \end{itemize}
-        
-    \end{itemize}
 
     \end{frame}
-    
+
     \printbibliography
-    
+
+
     \section{Supplementary}
-    
+
     \begin{frame}{Resnet}
         Residual Neural Networks are a popular architecture for deep learning models.
         Since its publication in an article from \cite{he2016deep}, it has been widely used (cited over 70453 times) for image recognition tasks.
@@ -473,36 +472,36 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
             \caption{Residual learning: a building block. Taken from \cite{he2016deep}.}
         \end{figure}
     \end{frame}
-    
-        \begin{frame}
-            \begin{figure}
+
+    \begin{frame}
+        \begin{figure}
             \centering
             \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text_censored}
-                \caption{\tiny{
-        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the radiographs that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
-    }}
-    \end{figure}
-    \end{frame}
-    
-    \begin{frame}
-    \begin{figure}
-            \centering
-            \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text}
-                \caption{\tiny{
-        \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the radiographs that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
-    }}
+            \caption{\tiny{
+                \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the radiographs that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
+            }}
         \end{figure}
     \end{frame}
 
-    
     \begin{frame}
-    \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_PA_text}
-    \caption{\textbf{Conditionally generated samples with F, L and T modalities as conditioner.}}
-    \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_text}
+            \caption{\tiny{
+                \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the radiographs that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
+            }}
+        \end{figure}
     \end{frame}
-    
+
+
+    \begin{frame}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth, height = \textheight, keepaspectratio]{data/cond_gen/Lateral_PA_text}
+            \caption{\textbf{Conditionally generated samples with F, L and T modalities as conditioner.}}
+        \end{figure}
+    \end{frame}
+
     \begin{frame}{The PoE-VAE}
 
         \begin{itemize}
@@ -512,7 +511,7 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
                 q_{\Phi}(z|x_{1:M})=\prod _m q_{\Phi_m}(z|x_m)
             \end{equation}
             \item Results in a good approximation of the joint distribution but struggles in optimizing the individual experts.
-            \item If one of the expert is miscalibrated (bad initialisation, overconfidence), it will perturb the whole joint distribution. 
+            \item If one of the expert is miscalibrated (bad initialisation, overconfidence), it will perturb the whole joint distribution.
         \end{itemize}
     \end{frame}
 
@@ -526,6 +525,6 @@ MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &
         \end{itemize}
 
     \end{frame}
-    
+
 
 \end{document}

@@ -29,11 +29,12 @@ class Params():
     vocab_size: int = 2900
 
 
-def df_builder(labels, clf_eval_results):
-    for label in labels:
-        label_row = {'MODEL': 'ResNet', 'LABEL': label}
+def df_builder( clf_eval_results):
+    for metric in ['mean_AP_Finding', 'specificity', 'accuracy', 'precision', 'recall']:
+        label_row = {'Metric': metric.replace('mean_AP_Finding', 'mean AP')}
         for k, v in clf_eval_results.items():
-            label_row[mod_to_modsymbol[k]] = np.round(v['mean_AP_Finding'][0], 3)
+            if k != 'random_perf':
+                label_row[mod_to_modsymbol[k]] = np.round(v[metric][0], 3)
 
         yield label_row
 
@@ -63,12 +64,11 @@ def print_clf_table(bin_labels: bool):
         for subset in combinations(mods, L):
             subsets.append(''.join(subset))
 
-    df = pd.DataFrame(df_builder(labels, clf_eval_results))
-    df.set_index(['MODEL', 'LABEL'], inplace=True)
-    df.sort_index(inplace=True)
-
-    df_tex = df.to_latex(escape=False)
-    print(bold_max_value(df, df_tex))
+    df = pd.DataFrame(df_builder(labels, clf_eval_results, config['eval_metric']))
+    df = df.reset_index(drop=True)
+    df_tex = df.to_latex(index=False, escape=False)
+    # print(bold_max_value(df, df_tex))
+    print(df_tex)
 
 
 if __name__ == '__main__':

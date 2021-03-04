@@ -1,5 +1,4 @@
 # HK, 12.02.21
-# HK, 17.01.21
 import glob
 import json
 import os
@@ -44,13 +43,14 @@ def test_clfs(flags, img_size: int, text_encoding: str):
     flags.text_encoding = text_encoding
     # set clf_training to true to get img transformations from dataset. For the same reason set flags.modality to PA
     flags.modality = 'PA'
-    mimic_test = Mimic(flags, get_labels(flags.binary_labels), split='eval')
+    mimic_test = Mimic(flags, get_labels(flags.binary_labels), split='test')
     flags.batch_size = len(mimic_test)
     clfs = load_clfs(flags)
 
     models = {}
 
-    dataloader = torch.utils.data.DataLoader(mimic_test, batch_size=flags.batch_size, shuffle=True, num_workers=0)
+    dataloader = torch.utils.data.DataLoader(mimic_test, batch_size=flags.batch_size, shuffle=True, num_workers=0,
+                                             drop_last=False)
     results = {}
     for modality in MODALITIES:
         models[modality] = clfs[modality].eval()
@@ -63,13 +63,18 @@ def test_clfs(flags, img_size: int, text_encoding: str):
     dummylogger = Dummylogger()
 
     results = {}
-    for mod in MODALITIES:
-        loss, val_results = eval_clf(flags, epoch=0, model=models[mod], data_loader=dataloader, log_writer=dummylogger,
-                                     modality=mod, criterion=criterion)
+    for mod in [*MODALITIES, 'random_perf']:
+        if mod != 'random_perf':
+            loss, val_results = eval_clf(flags, epoch=0, model=models[mod], data_loader=dataloader,
+                                         log_writer=dummylogger,
+                                         modality=mod, criterion=criterion)
+        else:
+            val_results['predictions'] = torch.randint(0, 2, val_results['ground_truths'].shape)
         # calculate metrics
         metrics = Metrics(val_results['predictions'], val_results['ground_truths'],
                           str_labels=get_labels(flags.binary_labels))
         metrics_dict = metrics.evaluate()
+        print(mod)
         print(metrics_dict)
         results[mod] = metrics_dict
 

@@ -180,6 +180,10 @@ def make_cond_gen_fig(nbr_samples=3):
             # for in_mod in ['Lateral_text']:
             create_cond_gen_plot(in_mod)
 
+def print_rand_perf():
+    config = get_config()
+
+
 
 if __name__ == '__main__':
     print(print_flag_attribute('vocab_size'))
