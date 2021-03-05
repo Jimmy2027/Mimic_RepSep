@@ -3,4 +3,4 @@
 from scripts.clf_table_utils_new import print_clf_table
 
 
-print_clf_table(bin_labels=True)
+print_clf_table(bin_labels=True, metrics=['mean_AP_Finding', 'accuracy', 'specificity'])

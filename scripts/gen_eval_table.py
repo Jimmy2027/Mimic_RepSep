@@ -6,13 +6,11 @@ import numpy as np
 import pandas as pd
 import os
 from scripts.utils import bold_max_value, get_random_perf
+from prepare.utils import get_config
 
-config_path = Path(os.getcwd()) / 'configs/bartholin.json'
 label = 'Finding'
 
-with open(config_path, 'r') as json_file:
-    config = json.load(json_file)
-
+config = get_config()
 gen_eval_results_path = Path(os.getcwd()) / 'data/gen_eval_results.json'
 
 with open(gen_eval_results_path, 'r') as json_file:
@@ -22,7 +20,7 @@ mods_mapping = {'PA': 'F', 'Lateral': 'L', 'text': 'T'}
 
 
 def df_builder(cond_values: dict):
-    label_row = {'MODEL': 'MoPoE', 'Metric': config['eval_metric']}
+    label_row = {'MODEL': 'MoPoE', 'Metric': config['eval_metric'].replace('_', ' ')}
     # label_row = {'MODEL': 'MoPoE', 'LABEL': label, 'rand perf': get_random_perf()}
     for k, v in cond_values.items():
         label_row[mods_mapping[k]] = np.round(v, 3)

@@ -379,7 +379,7 @@ is reported for each modality (F: frontal image, L: lateral image, T: text repor
             MoPoE & Finding &  0.345 &  0.317 &  0.379 &  0.34 &  \textbf{0.396} &  0.394 &  0.395 \\
 
             \end{tabular}
-            \caption{\textbf{Classification results of the linear classifiers trained on the learned latent representation}}
+            \caption{\textbf{Classification results of the linear classifiers trained on the learned latent representation.}}
             \end{table}
 
                         \begin{table}[]
@@ -401,9 +401,9 @@ is reported for each modality (F: frontal image, L: lateral image, T: text repor
 \begin{tabular}{lcccccccccc}
 
       &         & \multicolumn{3}{c}{F} & \multicolumn{3}{c}{L,F} & \multicolumn{3}{c}{L,F,T} \\  \cmidrule(l){3-5} \cmidrule(l){6-8} \cmidrule(l){9-11} MODEL &    LABEL     &         F &         L &         T &         F &         L &         T &         F &         L &         T \\\midrule
-MoPoE & Finding &  \textbf{0.589} &  0.544 &  0.492 &  0.563 &  0.515 &  0.524 &  0.574 &  0.524 &  0.495
+MoPoE & Finding &  0.547 &  0.501 &  0.492 &  0.563 &  0.515 &  0.505 &  \textbf{0.569} &  0.519 &  0.534
 \end{tabular}
-        \caption{\small{\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.}}
+        \caption{\small{\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples. The random baseline lies at 0.305.}}
     \end{table}
 
     \end{frame}

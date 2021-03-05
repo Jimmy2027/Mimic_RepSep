@@ -4,6 +4,6 @@
   "seed": 1,
   "dir_clf": "trained_classifiers_final",
   "dir_data": "/mnt/data/hendrik/mimic_scratch",
-  "eval_metric_": "mean_AP_Finding",
-  "eval_metric": "accuracy"
+  "eval_metric": "mean_AP_Finding",
+  "eval_metric_": "accuracy"
 }

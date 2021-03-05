@@ -12,18 +12,22 @@ from scripts.utils import bold_max_value
 from prepare.utils import get_config
 
 
-def df_builder(labels, lr_eval_results, mods, metric: str):
-    for label in labels:
-        label_row = {'MODEL': 'MoPoE', 'Metric': metric}
-        for col, score in lr_eval_results.items():
+def df_builder(lr_eval_results, mods, metrics: str):
+    if metrics == 'all':
+        metrics = list(lr_eval_results['PA'].keys())
+        metrics.remove('mean_AP_total')
+        metrics.remove('f1')
+    for metric in metrics:
+        label_row = {'Metric': metric.replace('mean_AP_Finding', 'mean AP').replace('_', r'\_')}
+        for col, scores in lr_eval_results.items():
             sub_mods = col.replace('_', ',')
             for k, v in mods.items():
                 sub_mods = sub_mods.replace(k, v)
-            label_row[sub_mods] = np.round(score, 3)
+            label_row[sub_mods] = round(scores[metric][0], 3)
         yield label_row
 
 
-def print_lr_table(bin_labels: bool):
+def print_lr_table(bin_labels: bool, metrics):
     if bin_labels:
         labels = ['Finding']
 
@@ -43,7 +47,7 @@ def print_lr_table(bin_labels: bool):
             subsets.append(''.join(subset))
     config = get_config()
 
-    df = pd.DataFrame(df_builder(labels, lr_eval_results, mods, config['eval_metric']))
+    df = pd.DataFrame(df_builder(lr_eval_results, mods, metrics))
 
     # df.set_index(['MODEL', 'LABEL'], inplace=True)
     # df.sort_index(inplace=True)
@@ -52,6 +56,7 @@ def print_lr_table(bin_labels: bool):
 
     df = df.reset_index(drop=True)
     df_tex = df.to_latex(index=False, escape=False)
-
-    # print(bold_max_value(df, df_tex))
-    print(df_tex)
+    df_tex = df_tex.replace(r'\toprule', '')
+    df_tex = df_tex.replace(r'\bottomrule', '')
+    print(bold_max_value(df, df_tex))
+    # print(df_tex)

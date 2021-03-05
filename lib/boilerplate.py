@@ -180,12 +180,20 @@ def make_cond_gen_fig(nbr_samples=3):
             # for in_mod in ['Lateral_text']:
             create_cond_gen_plot(in_mod)
 
+
 def print_rand_perf():
     config = get_config()
+    dir_clf = Path(os.getcwd()) / f'data/clfs/{config["dir_clf"]}'
 
+    clf_eval_results_path = dir_clf / f'clf_test_results_bin_label.json'
+
+    with open(clf_eval_results_path, 'r') as json_file:
+        clf_eval_results = json.load(json_file)
+    return round(clf_eval_results['random_perf']['mean_AP_Finding'][0], 3)
 
 
 if __name__ == '__main__':
-    print(print_flag_attribute('vocab_size'))
+    # print(print_flag_attribute('vocab_size'))
+    print_rand_perf()
     # print(print_lr())
     # print(print_nofinding_counts())

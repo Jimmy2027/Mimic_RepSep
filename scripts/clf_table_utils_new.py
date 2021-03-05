@@ -10,6 +10,7 @@ import pandas as pd
 
 from prepare.utils import get_config
 from scripts.utils import bold_max_value
+from typing import Union
 
 MODALITIES = ['PA', 'Lateral', 'text']
 MOD_MAPPING = {
@@ -29,9 +30,13 @@ class Params():
     vocab_size: int = 2900
 
 
-def df_builder( clf_eval_results):
-    for metric in ['mean_AP_Finding', 'specificity', 'accuracy', 'precision', 'recall']:
-        label_row = {'Metric': metric.replace('mean_AP_Finding', 'mean AP')}
+def df_builder(clf_eval_results, metrics: list):
+    if metrics == 'all':
+        metrics = list(clf_eval_results['PA'].keys())
+        metrics.remove('mean_AP_total')
+        metrics.remove('f1')
+    for metric in metrics:
+        label_row = {'Metric': metric.replace('mean_AP_Finding', 'mean AP').replace('_', r'\_')}
         for k, v in clf_eval_results.items():
             if k != 'random_perf':
                 label_row[mod_to_modsymbol[k]] = np.round(v[metric][0], 3)
@@ -39,7 +44,7 @@ def df_builder( clf_eval_results):
         yield label_row
 
 
-def print_clf_table(bin_labels: bool):
+def print_clf_table(bin_labels: bool, metrics: list):
     config = get_config()
 
     if bin_labels:
@@ -64,11 +69,13 @@ def print_clf_table(bin_labels: bool):
         for subset in combinations(mods, L):
             subsets.append(''.join(subset))
 
-    df = pd.DataFrame(df_builder(labels, clf_eval_results, config['eval_metric']))
+    df = pd.DataFrame(df_builder(clf_eval_results, metrics))
     df = df.reset_index(drop=True)
     df_tex = df.to_latex(index=False, escape=False)
-    # print(bold_max_value(df, df_tex))
-    print(df_tex)
+    df_tex = df_tex.replace(r'\toprule', '')
+    df_tex = df_tex.replace(r'\bottomrule', '')
+    print(bold_max_value(df, df_tex))
+    # print(df_tex)
 
 
 if __name__ == '__main__':

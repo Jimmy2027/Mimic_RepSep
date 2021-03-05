@@ -109,7 +109,8 @@ def eval_vae_lr():
                 # calculate metrics
                 metrics = Metrics(predictions[subset], gt, str_labels=get_labels(FLAGS.binary_labels))
                 metrics_dict = metrics.evaluate()
-                results[subset] = metrics_dict[config['eval_metric']][0]
+                # results[subset] = metrics_dict[config['eval_metric']][0]
+                results[subset] = metrics_dict
                 print(subset, ':', metrics_dict[config['eval_metric']][0])
 
     log.info(f'Lr eval results: {results}')
