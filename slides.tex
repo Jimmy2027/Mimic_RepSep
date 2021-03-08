@@ -406,7 +406,7 @@
         \py{
             pytex_tab(
             script='scripts/clf_table_bin.py',
-            caption='\\textbf{Mean AP values for the supervised classifiers.}',
+            caption='\\textbf{Classification results for the ResNet classifiers.}',
             options_post='',
             )
         }
@@ -440,7 +440,7 @@
                 & & \multicolumn{3}{c}{F} & \multicolumn{3}{c}{L,F} & \multicolumn{3}{c}{L,F,T} \\  \cmidrule(l){3-5} \cmidrule(l){6-8} \cmidrule(l){9-11} MODEL & LABEL & F & L & T & F & L & T & F & L & T \\\midrule
                 MoPoE & Finding & 0.547 & 0.501 & 0.492 & 0.563 & 0.515 & 0.505 & \textbf{0.569} & 0.519 & 0.534
             \end{tabular}
-            \caption{\small{\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples. The random baseline lies at 0.305.}}
+            \caption{\small{\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.}}
         \end{table}
         \pause
         The random baseline lies at \py{boilerplate.print_rand_perf()}.
