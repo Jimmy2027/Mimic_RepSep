@@ -1,0 +1,135 @@
+\documentclass{midl} % Include author names
+%\documentclass[anon]{midl} % Anonymized submission
+
+% The following packages will be automatically loaded:
+% jmlr, amsmath, amssymb, natbib, graphicx, url, algorithm2e
+% ifoddpage, relsize and probably more
+% make sure they are installed with your latex distribution
+
+\usepackage{mwe} % to get dummy images
+
+% Header for extended abstracts
+\jmlrproceedings{MIDL}{Medical Imaging with Deep Learning}
+\jmlrpages{}
+\jmlryear{2021}
+
+% to be uncommented for submissions under review
+\jmlrworkshop{Short Paper -- MIDL 2021 submission}
+\jmlrvolume{-- Under Review}
+\editors{Under Review for MIDL 2021}
+
+\title[Multimodal Generative Learning on the MIMIC-CXR Database]{Multimodal Generative Learning on the MIMIC-CXR Database}
+
+
+% More complicate cases, e.g. with dual affiliations and joint authorship
+\midlauthor{\Name{Hendrik Klug\nametag{$^{1,2}$}} \Email{klugh@ethz.ch}\\
+\addr $^{1}$ Institute for Electrical Engineering, ETH Zürich \\
+\Name{Thomas M. Sutter\midlotherjointauthor\nametag{$^{2}$}} \Email{xyz@sample.edu}\\
+\addr $^{2}$ Department of Computer Science, ETH Zürich \AND
+\Name{Julia E. Vogt\nametag{$^{2}$}} \Email{alphabeta@example.edu}\\
+}
+
+\begin{document}
+
+\maketitle
+\input{abstract.tex}
+
+
+\begin{keywords}
+Multimodal Learning, Generative Learning, 
+\end{keywords}
+
+\section{Introduction}
+
+This is where the content of your paper goes.  Some random notes:
+\begin{itemize}
+\item You should use \LaTeX \cite{Lamport:Book:1989}.
+\item JMLR/PMLR uses natbib for references. For simplicity, here, \verb|\cite|  defaults to
+  parenthetical citations, i.e. \verb|\citep|. You can of course also
+  use \verb|\citet| for textual citations.
+\item You should follow the guidelines provided by the conference.
+\item Read through the JMLR template documentation for specific \LaTeX
+  usage questions.
+\item Note that the JMLR template provides many handy functionalities
+such as \verb|\figureref| to refer to a figure,
+e.g. \figureref{fig:example},  \verb|\tableref| to refer to a table,
+e.g. \tableref{tab:example} and \verb|\equationref| to refer to an equation,
+e.g. \equationref{eq:example}.
+\end{itemize}
+
+    Training a deep-learning model in a supervised manner consists of updating its parameters based on observations of a large amount of labeled data.
+	Manually creating annotations of sufficient training examples for the training of the model is often infeasible, since it requires manual expert input.
+	In the medical domain especially, human labeled data is expensive to acquire and thus very scarce.
+	A generative model, that can learn embeddings of the data without the need for labels, enjoys a much bigger variety of possible training data.
+	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} in particular is a popular generative model, which consists of an encoder that maps the input to a learned latent distribution from which the decoder part samples to reconstruct the input.
+
+	Clinical data comes in many modalities, such as images, text reports and electronic health records.
+	A generative model that can leverage all of the modalities could be used for tasks such as generating a text report when given images of a patient, generating an image of another angle from an input image or data classification.
+	Generating a text report could relieve doctors from a tedious and time consuming task and accurate classification of disease state could accompany their judgement.
+	The generation of images from multiple angles could, in theory, avoid having to take multiple scans, which is costly, time-consuming and harmful in the case of X-ray scans.
+
+	In this work, we apply the generalized multimodal ELBO, proposed in \cite{thomas_gener-ELBO}, to train a self-supervised, generative model on clinical data from the MIMIC-CXR Database \cite{johnson2019mimic} containing chest-X rays and related text reports. In order to provide a first insight into the difficulties and oppurtunities that come with medical data.
+
+\begin{table}[htbp]
+ % The first argument is the label.
+ % The caption goes in the second argument, and the table contents
+ % go in the third argument.
+\floatconts
+  {tab:example}%
+  {\caption{An Example Table}}%
+  {\begin{tabular}{ll}
+  \bfseries Dataset & \bfseries Result\\
+  Data1 & 0.12345\\
+  Data2 & 0.67890\\
+  Data3 & 0.54321\\
+  Data4 & 0.09876
+  \end{tabular}}
+\end{table}
+
+\begin{figure}[htbp]
+ % Caption and label go in the first argument and the figure contents
+ % go in the second argument
+\floatconts
+  {fig:example}
+  {\caption{Example Image}}
+  {\includegraphics[width=0.5\linewidth]{example-image}}
+\end{figure}
+
+\begin{algorithm2e}
+\caption{Computing Net Activation}
+\label{alg:net}
+ % older versions of algorithm2e have \dontprintsemicolon instead
+ % of the following:
+ %\DontPrintSemicolon
+ % older versions of algorithm2e have \linesnumbered instead of the
+ % following:
+ %\LinesNumbered
+\KwIn{$x_1, \ldots, x_n, w_1, \ldots, w_n$}
+\KwOut{$y$, the net activation}
+$y\leftarrow 0$\;
+\For{$i\leftarrow 1$ \KwTo $n$}{
+  $y \leftarrow y + w_i*x_i$\;
+}
+\end{algorithm2e}
+
+% Acknowledgments---Will not appear in anonymized version
+\midlacknowledgments{We thank a bunch of people.}
+
+
+\bibliography{bib}
+
+
+\appendix
+
+\section{Proof of Theorem 1}
+
+This is a boring technical proof of
+\begin{equation}\label{eq:example}
+\cos^2\theta + \sin^2\theta \equiv 1.
+\end{equation}
+
+\section{Proof of Theorem 2}
+
+This is a complete version of a proof sketched in the main text.
+
+\end{document}
