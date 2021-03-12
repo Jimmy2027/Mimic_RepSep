@@ -21,7 +21,7 @@ from utils import get_config
 from utils import set_paths
 
 
-def test_clf_lr_all_subsets(clf_lr, exp) -> typing.Mapping[str, typing.Mapping[str, float]]:
+def test_clf_lr_all_subsets(clf_lr, exp):
     """
     Test the classifiers that were trained on latent representations.
     """
@@ -91,6 +91,7 @@ def eval_vae_lr():
     FLAGS = set_paths(FLAGS, config)
     FLAGS.use_clf = False
     FLAGS.batch_size = 30
+    # FLAGS.undersample_dataset = True
     state_dict_path = experiment_path / 'checkpoints/0149/mm_vae'
 
     mimic_experiment = MimicExperiment(flags=FLAGS)
@@ -103,13 +104,12 @@ def eval_vae_lr():
     for binay_labels in [True]:
         mimic_experiment.flags.binary_labels = binay_labels
         with torch.no_grad():
-            clf_lr = train_clf_lr_all_subsets(mimic_experiment)
+            clf_lr = train_clf_lr_all_subsets(mimic_experiment, weighted_sampler=False)
             predictions, gt = test_clf_lr_all_subsets(clf_lr, mimic_experiment)
             for subset in predictions:
                 # calculate metrics
                 metrics = Metrics(predictions[subset], gt, str_labels=get_labels(FLAGS.binary_labels))
                 metrics_dict = metrics.evaluate()
-                # results[subset] = metrics_dict[config['eval_metric']][0]
                 results[subset] = metrics_dict
                 print(subset, ':', metrics_dict[config['eval_metric']][0])
 
