@@ -32,7 +32,13 @@
 \begin{document}
 
 \maketitle
-\input{abstract.tex}
+\begin{abstract}
+    Machine Learning (ML) has become more and more popular in the medical domain over the past years.
+    While supervised machine learning has received the most attention, unsupervised learning has great potential since there is more data available for the training of the models.
+    Especially when leveraging the multi-modal nature of most clinical data, self-supervised learning can provide results comparable to supervised methods.
+    Multi-modal unsupervised methods have been tested extensively on toy-datasets like MNIST \cite{lecun-mnisthandwrittendigit-2010, thomas_gener-ELBO, wu2018multimodal} and CelebA \cite{liu2015faceattributes, thomas_gener-ELBO, wu2018multimodal} but to the best of our knowledge have never been applied to medical data, for direct applications such as disease classification and image generation.
+    In this article, we apply a method for self-supervised training proposed in \cite{thomas_gener-ELBO} to medical data from the MIMIC-CXR Database \cite{johnson2019mimic} and show that these methods provide promising results on medical data from the MIMIC-CXR database, while highlighting that the task is extremely challenging and that there is space for substantial improvements.
+\end{abstract}
 
 
 \begin{keywords}
@@ -41,46 +47,34 @@ Multimodal Learning, Generative Learning, VAE
 
 \section{Introduction}
 
-This is where the content of your paper goes.  Some random notes:
-\begin{itemize}
-\item You should use \LaTeX \cite{Lamport:Book:1989}.
-\item JMLR/PMLR uses natbib for references. For simplicity, here, \verb|\cite|  defaults to
-  parenthetical citations, i.e. \verb|\citep|. You can of course also
-  use \verb|\citet| for textual citations.
-\item You should follow the guidelines provided by the conference.
-\item Read through the JMLR template documentation for specific \LaTeX
-  usage questions.
-\item Note that the JMLR template provides many handy functionalities
-such as \verb|\figureref| to refer to a figure,
-e.g. \figureref{fig:example},  \verb|\tableref| to refer to a table,
-e.g. \tableref{tab:example} and \verb|\equationref| to refer to an equation,
-e.g. \equationref{eq:example}.
-\end{itemize}
-
-    Training a deep-learning model in a supervised manner consists of updating its parameters based on observations of a large amount of labeled data.
-	Manually creating annotations of sufficient training examples for the training of the model is often infeasible, since it requires manual expert input.
+	Manually creating annotations of sufficient training examples for the training of a deep learning model is often infeasible, since it requires manual expert input.
 	In the medical domain especially, human labeled data is expensive to acquire and thus very scarce.
 	A generative model, that can learn embeddings of the data without the need for labels, enjoys a much bigger variety of possible training data.
 	The Variational Autoencoder (VAE) \cite{doersch2016tutorial} in particular is a popular generative model, which consists of an encoder that maps the input to a learned latent distribution from which the decoder part samples to reconstruct the input.
 
 	Clinical data comes in many modalities, such as images, text reports and electronic health records.
 	A generative model that can leverage all of the modalities could be used for tasks such as generating a text report when given images of a patient, generating an image of another angle from an input image or data classification.
-	Generating a text report could relieve doctors from a tedious and time consuming task and accurate classification of disease state could accompany their judgement.
-	The generation of images from multiple angles could, in theory, avoid having to take multiple scans, which is costly, time-consuming and harmful in the case of X-ray scans.
-
-	In this work, we apply the generalized multimodal ELBO, proposed in \cite{thomas_gener-ELBO}, to train a self-supervised, generative model on clinical data from the MIMIC-CXR Database \cite{johnson2019mimic} containing chest-X rays and related text reports. In order to provide a first insight into the difficulties and oppurtunities that come with medical data.
+	However, in contrast to toy datasets, the different pathologies that represent the classes in medical data are defined by very subtle features that only human experts can recognise.
+	This makes the task of learning a latent representation of the data, while preserving the separability of the classes extremely challenging.
+	
+	In this work, we apply the generalised multimodal ELBO, proposed in \cite{thomas_gener-ELBO}, to train a self-supervised, generative model on clinical data from the MIMIC-CXR Database \cite{johnson2019mimic} containing chest-X rays and related text reports. 
+	We provide a first insight into the difficulties and opportunities that come with medical data.
 
 \section{Methods}
 Assuming the data consists of $N$ i.i.d. samples $\{\xseti\}^N_{i=1}$, each of which is a set of M modalities $\mathbb{X}^{(i)} = \{\textbf{x}_j^{(i)}\}^M_{j=1}$, the joint posterior distribution is calculated in two steps.
 In a first step, a distribution is calculated for each subset of the powerset $\powerset$ using a Product of Experts (PoE) \cite{wu2018multimodal}.
 In a second step these subsets are merged using a Mixture of Experts (MoE) \cite{shi2019variational} into a joint posterior distribution.
 
+The MIMIC-CXR Database \cite{johnson2019mimic} provides a class-label for every sample, corresponding to one or more of 13 pathologies.
+For the evaluation of our method, we created a label "Finding", indicating if the sample is labeled with any of the 13 pathologies. 
+All images were resized to (128, 128) and every word that occurs at
+least 3 times in all the text reports is mapped to an index. 
+Using this mapping each sentence is encoded into a sequence of indices. 
+All sentences with a word count above 128 are truncated and all sentences consisting of less words are padded with a padding token "$< pad>$" such that all text samples are of length 128.
+
 \section{Results}
 
-    We evaluate the proposed method on the MIMIC dataset by comparing the classification quality of the MoPoE to supervised classification methods in a first step and then evaluate the generation quality and coherence in a second step.
     In the following section, we will abbreviate the three modalities present in the data selection with "F" for frontal scan, "L" for lateral scan and "T" for text report.
-    
-    
     
     \subsection{Evaluation of the latent representation}
     
