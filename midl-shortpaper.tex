@@ -78,66 +78,28 @@ All sentences with a word count above 128 are truncated and all sentences consis
     
     \subsection{Evaluation of the latent representation}
     
-    
-    %The random performance lies at \py{boilerplate.read_rand_perf()}.\\
-    
-    \Cref{tab:lr_table_bin} shows the evaluation of the linear classifiers that were trained on the learned latent representation.
+    \tableref{tab:lr_table} shows the evaluation of the linear classifiers that were trained on the learned latent representation.
     We note that the uni-modal subspaces provide a less good separability between samples that are labeled with a Finding and samples that are not.
-    Especially when adding information of the T and the F subspaces does the classification score increase.
-    While the information of the L subspace does not improve the classification score when added to the other image modality F, it does significantly increase the score when added to the text modality T.
-    The highest score is achieved by the classifiers evaluated on the T and the F modality.
+    The highest score is achieved by the classifiers evaluated on the subspace spanned by all three modalities.
+    This shows that successfully merges the information of all three modalities in a joint posterior distribution.  
     Overall, the text modality provides the best separability.
     This is expected since the text modality is the easier modality to learn from because it contains the label assignment encoded in a much simpler manner than for the image modalities.
     The text reports of samples belonging to a certain label will contain that label in their text.
     
-    \Cref{tab:clf_table_bin} shows the mean average precision score of the supervised method on the same test set.
-    Overall the classifiers trained with manually labeled data achieve higher scores for all modalities.
-    This difference in performance can be explained by the different training objectives of the two methods.
-    The supervised classifiers were trained with the objective of classifying the samples correctly.
-    This comes at the cost of needing a sufficiently big dataset with samples that need to be annotated by an expert in the case of medical data.
-    The classification ability of the unsupervised method on the other hand, is simply a byproduct of the learning of a latent representation of the data.
     
-    \py{
-        pytex_tab(
-        script='scripts/lr_table_bin.py',
-        label='lr_table_bin',
-        caption='\\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifiers evaluated on the subspace containing all modalities achieves the highest mean average precision.',
-        options_pre='\\centering \\resizebox{0.9\\textwidth}{!}{',
-        options_post='}',
-        )
-    }
+    \begin{table}[htbp]
+    \floatconts
+      {tab:lr_table}%
+      {\caption{\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding".} 
+      The mean average precision over the test set is reported for each modality (F: frontal image, L: lateral image, T: text report).
+      The random performance lies at 0.395.}}%
+      {\begin{tabular}{llrrrrrrr}
+                MODEL & LABEL   & F     & L     & T     & L,F   & F,T   & L,T   & L,F,T          \\
+                \midrule
+                MoPoE & Finding & 0.467 & 0.460 & 0.473 & 0.476 & 0.493 & 0.475 & \textbf{0.494} \\
     
-    
-    \py{
-        pytex_tab(
-        script='scripts/clf_table_bin.py',
-        label='clf_table_bin',
-        caption='\\textbf{Classification results of the supervised classifiers using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifier trained on the T modality achieves the highest score.',
-        options_pre='\\centering \\resizebox{0.5\\textwidth}{!}{',
-        options_post='}',
-        )
-    }
-    
-    
-    %\py{
-    %    pytex_tab(
-    %    script='scripts/lr_table.py',
-    %    label='lr_table',
-    %    caption='\\textbf{Classification results of the linear classifiers trained on the learned latent representation using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report). The classifiers evaluated on the subspace containing all modalities achieves the highest mean average precision.',
-    %    options_pre='\\centering \\resizebox{0.9\\textwidth}{!}{',
-    %    options_post='}',
-    %    )
-    %}
-    %
-    %\py{
-    %    pytex_tab(
-    %    script='scripts/clf_table_new.py',
-    %    label='clf_table',
-    %    caption='\\textbf{Classification results of the supervised classifiers using the binary label "Finding"}. The mean average precision over the test set is reported for each modality (F: frontal scan, L: lateral scan, T: text report).',
-    %    options_pre='\\centering \\resizebox{0.7\\textwidth}{!}{',
-    %    options_post='}',
-    %    )
-    %}
+            \end{tabular}}
+    \end{table}
     
     \subsection{Evaluation of the generation coherence}
     
