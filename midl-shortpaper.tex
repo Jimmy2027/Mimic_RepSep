@@ -76,16 +76,11 @@ All sentences with a word count above 128 are truncated and all sentences consis
 
     In the following section, we will abbreviate the three modalities present in the data selection with "F" for frontal scan, "L" for lateral scan and "T" for text report.
     
-    \subsection{Evaluation of the latent representation}
-    
-    \tableref{tab:lr_table} shows the evaluation of the linear classifiers that were trained on the learned latent representation.
+    \textbf{Evaluation of the latent representation.} \tableref{tab:lr_table} shows the evaluation of linear classifiers that were trained and evaluated on the learned latent representation.
     We note that the uni-modal subspaces provide a less good separability between samples that are labeled with a Finding and samples that are not.
     The highest score is achieved by the classifiers evaluated on the subspace spanned by all three modalities.
-    This shows that successfully merges the information of all three modalities in a joint posterior distribution.  
+    This shows that the information of all modalities are successfully merged in the joint posterior distribution.  
     Overall, the text modality provides the best separability.
-    This is expected since the text modality is the easier modality to learn from because it contains the label assignment encoded in a much simpler manner than for the image modalities.
-    The text reports of samples belonging to a certain label will contain that label in their text.
-    
     
     \begin{table}[htbp]
     \floatconts
@@ -101,68 +96,40 @@ All sentences with a word count above 128 are truncated and all sentences consis
             \end{tabular}}
     \end{table}
     
-    \subsection{Evaluation of the generation coherence}
     
-    Here we evaluate if the model, given input samples, is able to generate coherently.
-    The generation is said to be coherent if the generated classes are classified to the same class as the input samples.\\
-    \Cref{tab:gen_eval_table} shows the results values of the generation coherence of the MoPoE.
-    Overall, the generated samples of the F modality provide the best generation coherence and adding other modalities as conditioner does not have a significant impact on the score.
-    
-    \Cref{fig:fig_cond_lattext} and \cref{fig:fig_cond_latPAtext} compare the generation quality of the model, without the F modality as input as well as given the F modality as conditioner.
+    \textbf{Generation Quality.} \Cref{fig:fig_cond_lattext} and \cref{fig:fig_cond_latPAtext} compare the generation quality of the model, without the F modality as input as well as given the F modality as conditioner.
     Adding the F modality as input for the generation brings a significant improvement to the quality of the generated samples.
     The generated samples from \cref{fig:fig_cond_latPAtext} are less blurry and smaller details are recognizable.
-    We note that while the text modality is the modality that provides the best performance in the evaluation of the latent representation, it hard for the model to generate text samples given only the image modalities.
-    It is however capable to copy the input text, when the text modality is given as conditioner.
-    
-    
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{data/cond_gen/Lateral_text}
-        \caption{
-            \textbf{Conditionally generated samples with F and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last images rows are the generated samples. The images in the first row are the scans that correspond to the samples given as conditioner. The generated samples are blurry and it is difficult to see whether they represent some of the features that are characteristic to the input samples.
-        }
-        \label{fig:fig_cond_lattext}
-    \end{figure}
-    
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{data/cond_gen/Lateral_PA_text}
-        \caption{
-            \textbf{Conditionally generated samples with F, L and T modalities as conditioner.} While the generated images are blurry, they do present some features that can be found in the input samples.
-        }
-        \label{fig:fig_cond_latPAtext}
-    \end{figure}
-    
-    
-    \py{
-        pytex_tab(
-        script='scripts/gen_eval_table.py',
-        label='gen_eval_table',
-        caption='\\textbf{Evaluation of the generation coherence.} For conditional generation, the letter below the horizontal line indicates the modality which is generated based on the input subsets $\\xset _k$ above. We report the mean average precision values between the prediction of a trained classifier on the generated samples and the label of the input samples.',
-        options_pre='\\centering \\resizebox{0.9\\textwidth}{!}{',
-        options_post='}',
-        )
-    }
 
+    \begin{figure}[h]
+    \centering
+  \hfill
+  \begin{minipage}[t]{.45\textwidth}
+    \begin{center}  
+      \includegraphics[scale=0.25]{data/cond_gen/Lateral_text_small}
+      \caption{\small{\textbf{Conditionally generated samples with L and T modalities as conditioner.} The second and third image rows were given to the model as conditioner. The three last image rows are the generated samples.}}
+      \label{fig:fig_cond_lattext}
+    \end{center}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{.45\textwidth}
+    \begin{center}  
+      \includegraphics[scale=0.25]{data/cond_gen/Lateral_PA_text_small}
+      \caption{\small{\textbf{Conditionally generated samples with F, L and T modalities as conditioner.}}}
+      \label{fig:fig_cond_latPAtext}
+    \end{center}
+  \end{minipage}
+  \hfill
+    \end{figure}
+    
 \section{Conclusion}
-    In this work, we applied a multi-modal generative model on clinical data to evaluate its performance on direct applications in the medical field.
+    In this work, we applied a method for multi-modal generative learning on clinical data and evaluated its performance on direct applications in the medical field.
     
     While our experiments show promising results, they indicate that the task is extremely challenging with significant scope for improvement.
     
     In particular, we showed that features in medical scans that are characteristic of most diseases are often smaller details that get lost in the blurriness of the generated samples.
     However, the latent representation that the MoPoE learns when learning to reproduce the data is still meaningful in the sense that it can be separated into the different classes the data belong to.
 
-    While the learning of this representation was done in a supervised manner, the evaluation of the separability used handcrafted labels.
-    Having shown that the latent space learned by the MoPoE is separable, it would be interesting to see if it can be separated in an unsupervised manner such as a clustering method.
-    This would make the MoPoE a fully unsupervised classifier that we believe would perform better than a clustering method on raw, high dimensional medical data.
-    The more complex loss function from our method can incorporate more prior knowledge and impose regularization.
-    
-    
-    We have shown that the text modality provides the best separability of the latent representation but is also the most difficult to generate.
-    This indicates that further research into the text decoder architecture could increase the performance of the method.
-    
-    
-    
     We argue that our method is a successful first step into creating an unsupervised method that will find applications in the medical domain such as classification of diseases, generating text reports from medical data and generating scans from multiple angles.
     However, we believe that the method can be improved with some further fine-tuning, for example in the choice of the abstract mean function for modelling the joint posterior or in the choice of the encoder-decoder architectures.
 
