@@ -22,6 +22,7 @@ else
   if [ "${TARGET}" = "poster/midl2021_poster" ]; then
 #    the poster need to be run with lualatex.
     lualatex -shell-escape "${TARGET}.tex" || { echo "Initial lualetex failed"; exit $ERRCODE; }
+    bibtex "$(basename "${TARGET}")" || { echo "bibtex failed"; exit $ERRCODE; }
     lualatex -shell-escape "${TARGET}.tex" || { echo "Second lualetex failed"; exit $ERRCODE; }
 
   else
