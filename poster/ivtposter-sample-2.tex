@@ -1,0 +1,237 @@
+%Adjust the path to the posters/ directory here
+\documentclass[final,a0paper]{poster/ivtposter}
+%\documentclass[final,trb]{ivtposter}
+%\documentclass[a4shrink,portrait,final]{ivtposter}
+% Use a4shrink for an a4 sized paper.
+
+% All files are supposed to be in UTF-8 now:
+% (ENCODING CHECK: äöüÄÖÜßéàè)
+
+% You probably need to change this
+\usepackage[latin]{babel}%
+
+\usepackage{booktabs}
+
+% Enable and fix path for bibliography support
+\iffalse
+\usepackage[round]{natbib}
+\bibliographystyle{_latexfiles/styles/ivt-eng}%
+\fi
+
+%% To use the FF DIN Pro font:
+\iffalse
+\usepackage{fontspec}
+\setmainfont[BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic, Ligatures=TeX, Numbers=OldStyle]{DINPro}
+\usepackage{unicode-math}
+\setmathfont{Asana Math} % for math symbols, can be any other OpenType math font
+\setmathfont[Ligatures=TeX, Numbers={Lining,Proportional}, range=\mathup]  {DINPro}
+\setmathfont[Ligatures=TeX, Numbers={Lining,Proportional}, range=\mathbfup]  {DINPro}
+\setmathfont[Ligatures=TeX, Numbers={Lining,Proportional}, range=\mathbfit]  {DINPro-BoldItalic}
+\setmathfont[Ligatures=TeX, Numbers={Lining,Proportional}, range=\mathit]{DINPro-Italic}
+\fi
+
+\tracingstats=2
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Begin of Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Here starts the poster
+%%%---------------------------------------------------------------------------
+%%% Format it to your taste with the options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{Poster Starts}
+\begin{poster}%
+  % Poster Options
+  {
+  columns=2, %1-6
+  % Show grid to help with alignment
+  grid=no
+  }
+  % Eye Catcher
+  {} % No eye catcher for this poster. (eyecatcher=no above). If an eye catcher is present, the title is centered between eye-catcher and logo.
+  % Title
+  {~}
+  % Authors
+  {}
+  % University logo
+  {}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Now define the boxes that make up the poster
+%%%---------------------------------------------------------------------------
+%%% Each box has a name and can be placed absolutely or relatively.
+%%% The only inconvenience is that you can only specify a relative position 
+%%% towards an already declared box. So if you have a box attached to the 
+%%% bottom, one to the top and a third one which should be in between, you 
+%%% have to specify the top and bottom boxes before you specify the middle 
+%%% box.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %
+    % A coloured circle useful as a bullet with an adjustably strong filling
+    \newcommand{\colouredcircle}[1]{%
+      \tikz{\useasboundingbox (-0.2em,-0.32em) rectangle(0.2em,0.32em); \draw[draw=black,fill=baposterBGone!80!black!#1!white,line width=0.03em] (0,0) circle(0.18em);}}
+
+  \headerbox{}{name=title,column=0,row=0,span=2,noheader=yes}{%
+     \begin{flushleft}
+     \setlength{\parskip}{1ex}
+     {\fontsize{34.3}{41.2}\bfseries\selectfont
+       Title goes here, it should be no longer than 2 lines otherwise it is not a title, it is a text
+     \par
+     }
+     \vspace{1ex}
+     {\Large
+       Subtitle that also should not be longer than 2 lines -- subtitle subtitle subtitle subtitle subtitle
+       subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle
+     \par
+     }
+     \vspace{2ex}
+     {
+       \Large\bfseries
+       Author one\textsuperscript{1+}\hspace{-.25em},
+       Author two\textsuperscript{2}\hspace{-.25em},
+       Author three\textsuperscript{3}
+     \par
+     }
+     \textsuperscript{1}Institute for Transport Planning and Systems (IVT), ETH Zurich;
+     \textsuperscript{2}Organisational unit 2, University XXX;
+     \textsuperscript{3}Organisational unit 3, University YYY
+     \\
+     \textsuperscript{+}Corresponding author; mailmailmai@server.com, further contact information
+     \end{flushleft}
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{1 Introduction}{name=introduction,column=0,below=title}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Feriasperum dolupta tinulparum inum sequibus magnihil is eaque volorrovidio
+    volorrorum ut rem que nectorepudam ducium ra vendis natet, omnis in nos doluptiusda commolorum hicabo. Ehenihil eatqui ipsuntem litates endita ipsuntiis
+    am faceper ianditium quam dolorist, tor ratium facculparcid ulluptus enit officat.
+    Xeris antia plaut perunt quis erio. Et porerume et ut eum et et, sita cum estrum
+    sunt eatiature ma estibus magnis modiam si quaeperro to tem sintiat od qui doluptibus dentior aborerumqui audantem. Ut omnimi, sum fugiae volorepedis dollabor adi to dolupta enducim odipsape sum doluptatio to et velentibus, voluptatas
+    es maionem quatur aliquam ilit andus eicaepudit eiuriae omni apientur assimillent
+    volum eum aut et aut volupisqui con nus.
+    
+    Fuga. Eptatio. Itatem venecatis rercilique atustiusam rem dolorrum fugitios ent,
+    nis volorrum que volorate volenim olupti aciatende cullum laut modicatis es dici
+    doluptiatem conet verum lant aut lat dolorem core laboris pore rem excea aspis
+    sendis rem. Turibus cipsunt experum int, cuptate ius et excest eictorum lacculpa
+    nihilig eniendam del inciae necupisqui cus sit por si dempe nem aut quat omnistiunt amenim evenis eiumendae pra sus atur, optisque debit mollum rectio. Lo
+    omnissequi veritioris experis am, eatiberume suntias dernatis nisi totaspit fugias
+    rem assuntia sum dolupist, test, vollo incias dios as audictotae si quidernatia ipsam rernatenda volo eatem qui unt as rerchillabo. Itatend ipsanie nisinihic to in et
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{2 Methods}{name=methods,column=0,below=introduction,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Ibusam et quam, quae nonecus sin non et faceptatem et mossedi caestinctus
+experum, nonsed quatur, sed eiur?
+
+Dust, totaect ectorerio explit odi doluptum quunt, nos int volorer spelenimus, non-
+sequo bearum as sunt esequiandae sitature iur? Cone volupis reriorro ipientis
+utem veres nobit re exerum hilluptaspis et quam dolo eos eos eictat aliante cori-
+bus.
+
+Ga. Derrorum quiatemquat et quo maio dolorib ustibus.
+
+Hicae explita tiorum aceritiis remo to esequatissi con cullamenda ditem sunt.
+Sum doloriosam, sum cor modistotati conest odit abore et hillestiamus nosam
+autem versper umquiandi vendunt quisquibus vel molupie ntint.
+Aborerc hiliquo con niento vendem ariam erum eum ipsam, optate molupie ntiost,
+    \createtable{}{Title}{X}{%
+      \begin{tabular}{rl}
+        \toprule
+        Column 1 & Column 2 \\\midrule
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        INSERT YOUR & TABLE HERE \\
+        \bottomrule
+      \end{tabular}
+    }{}
+
+nos volorrovid quiaspe llabo. Ga. Sum quaturest aritatur sus vel invent ene con
+re occum reicae. Lum et posam fugitatis volest que cum aut voloreperum sam
+am et quam enihit as etur reperepre dem int exerunt et que plictusae nam veria
+simus aris nonsequodi nobis est occus et is quatias as eossum landit res rature
+nes niminveles earum fuga. Ost, si quuntinis estrum vene volorepudae la dolup-
+tati voluptae consequis et minvelestis re nobis mo ipsus.
+
+Mustor secti commosapero et prem assint ut esciaera est magnam quod que
+imustia quistius moditius si ius id eiciis que voloruptatum in rem re odigenihici
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{5 References}{name=references,column=1,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \scriptsize
+    1.	 This is a dummy text. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. \\
+    2.	 Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. \\
+    3.	 A small river named Duden flows by their place and supplies it with the necessary regelialia. \\
+    17.	 It is a paradisematic country, in which roasted parts of sentences fly into your mouth. \\
+    29.	 This is a dum \\
+    55.	 Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.\par
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{4 Conclusion}{name=conclusion,column=1,above=references}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Loruptiorem volorum volecte minis re, volecer epeditam faccaec ullabore deni-
+    mus aut essimin velibus.
+
+    Iliquiatus entemod quas modi ommoloris rae. Ut illutem similibus siti unt.
+
+    Tem qui niende volorem voluptam quate nusape landiam endello remquid mi,
+    quaspis re, si bea corro ipsanistisit la sit harci dolupta errores as magniendi odit
+    et que pra sus aut aut illigen itatiis estionsedit ommodi atibus sam consedisqui
+    rem hit perchil et officip iendae solorpo reratias mos modia doloreptaque inctur,
+    aut volut rerchil inis acia volest rehent ad quibus expliti quam, quianto et parunt
+    qui dolupti apernate abo. Bea nos iurem est, officitio dicia con enimiliquae premod eum nus restiae expliquis reperferepe nosapienis ne nes alictet, volores eat.
+    Omnisci atibus quiae cus expel millabo. Nem reptibus, officia ndipsum in plitatus
+    est, cus debistem fugia con con niendit volupta sandignimin recesequatis escil in
+    cum volectem enes iumquodit, omnis sam de nobis nisti volupid elisquatia que et
+    aspe lani omnihic toritione de conem que vendit et voluptiur, nihil essuntotat.
+
+    Aximet lautate cerior ad es ma nihit dis aliscie ntibusae occus exceri aut ipsamust
+    enet molorum que prae aut rem eost minullu ptatem. Sedi sit, quae volore voluptur mi, sequam, omnimus imagnatum nienescim imaximus vidit mostia quundelique plit ut velesedici aperaturion re qui rem nam ditae as voluptur ad quas id
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{3 Results}{name=results,column=1,below=title,above=conclusion}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Ari dolecae. Nequaec usandias ex eturepudam eos utectis consequi cusamus
+    audit, cus.
+
+    Rum diatur? Qui ut ma quate sequate modite volecul lendis volum ium sapit esciis
+    non nos ex ex enis ped quidus nitam iminim volorum vel id quiamet fuga. Et idis
+    escil id exerum voluptibus eum facearc hicimus sus consendae volupta quiscim
+    fuga. Ut esteni distio molupturem. Idenimil ilignat iatur, que odit es ad ut esed
+    quaspient, non eos et fugiatur am sequae remporem alictis molupti reiur adi au
+    \createfigure{}{Title}{X}{%
+    \includegraphics[height=21ex]{netz}
+    }{}
+    dit qui testet, quidemporit ad quiam, endi non prestio. Mostores volesequi que
+    persperspid untiis dolupta nonseque int.
+
+    Solorio offici dolore sitist etur, que volo etus dolorumendam auditius voloribus
+    etumet laborum volesciaepro quia dem. Eprestet re conse dolorro reiur?
+
+    Olutent iiscius samustorecto que evenem acil ipsapictatur autem ut quo blatem-
+    por autat ut apedia quia quatiis volorpore ne voluptatur sum nonsequo eos quas
+    cusantiore qui int.
+  }
+
+\end{poster}
+
+\end{document}
