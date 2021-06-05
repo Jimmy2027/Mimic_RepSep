@@ -1,0 +1,73 @@
+\documentclass{midl} % Include author names
+
+\title[Multimodal Generative Learning on the MIMIC-CXR Database]{Multimodal Generative Learning on the MIMIC-CXR Database}
+
+
+% More complicate cases, e.g. with dual affiliations and joint authorship
+\midlauthor{\Name{Hendrik Klug\nametag{$^{1}$}} \Email{klugh@ethz.ch}\\
+\Name{Thomas M. Sutter\midlotherjointauthor\nametag{$^{2}$}} \Email{thomas.sutter@inf.ethz.ch} \AND
+\Name{Julia E. Vogt\nametag{$^{2}$}} \Email{julia.vogt@inf.ethz.ch}\\
+\addr $^{1}$ Institute for Electrical Engineering, ETH Zürich, 
+\addr $^{2}$ Department of Computer Science, ETH Zürich
+}
+
+\begin{document}
+\maketitle
+    \begin{table}[htbp]
+    \floatconts
+      {tab:lr_table}%
+      {\caption{\textbf{Classification results of the linear classifiers.} 
+      The mean average precision over the test set is reported for each modality (F: frontal image, L: lateral image, T: text report).
+      The random performance lies at 0.395.}}%
+      {\begin{tabular}{llrrrrrrr}
+                MODEL    & F     & L     & T     & L,F   & F,T   & L,T   & L,F,T          \\
+                MoPoE  & 0.467 & 0.460 & 0.473 & 0.476 & 0.493 & 0.475 & \textbf{0.494} \\
+                
+                random &  \multicolumn{6}{c}{0.395}
+    
+            \end{tabular}}
+    \end{table}
+    
+        \begin{table}[htbp]
+    \floatconts
+      {tab:lr_table}%
+      {\caption{\textbf{Classification results of the linear classifiers.} 
+      The mean average precision over the test set is reported for each modality (F: frontal image, L: lateral image, T: text report).
+      The random performance lies at 0.395.}}%
+      {\begin{tabular}{llrrrrrrr}
+                MODEL    & F     & L     & T     & L,F   & F,T   & L,T   & L,F,T          \\
+                MoPoE  & 0.467 & 0.460 & 0.473 & 0.476 & 0.493 & 0.475 & \textbf{0.494} \\
+                random & - & - & - & - & - & -& 0.395
+    
+            \end{tabular}}
+    \end{table}
+    
+    \begin{table}[htbp]
+    \floatconts
+      {tab:lr_table}%
+      {\caption{\textbf{Classification results of the linear classifiers.} 
+      The mean average precision over the test set is reported for each modality (F: frontal image, L: lateral image, T: text report).
+      The random performance lies at 0.395.}}%
+      {\begin{tabular}{llrrrrrrr}
+                MODEL   & random perf. & F     & L     & T     & L,F   & F,T   & L,T   & L,F,T          \\
+                MoPoE & 0.395 & 0.467 & 0.460 & 0.473 & 0.476 & 0.493 & 0.475 & \textbf{0.494} \\
+                
+    
+            \end{tabular}}
+    \end{table}
+        \begin{table}[htbp]
+    \floatconts
+      {tab:lr_table}%
+      {\caption{\textbf{Classification results of the linear classifiers.} 
+      The mean average precision over the test set is reported for each modality (F: frontal image, L: lateral image, T: text report).
+      The random performance lies at 0.395.}}%
+      {\begin{tabular}{llrrrrrrr}
+                MODEL    & F     & L     & T     & L,F   & F,T   & L,T   & L,F,T          \\
+                MoPoE  & 0.467 & 0.460 & 0.473 & 0.476 & 0.493 & 0.475 & \textbf{0.494} \\
+                random & 0.395 & 0.395 & 0.395 & 0.395 & 0.395 & 0.395& 0.395
+    
+            \end{tabular}}
+    \end{table}
+    
+    
+\end{document}

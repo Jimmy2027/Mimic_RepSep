@@ -10,22 +10,14 @@
 \usepackage{siunitx}
 \usepackage{subcaption}
 \usepackage[section]{placeins}
-\usepackage{tikz}
-\usetikzlibrary{shapes,snakes}
+%\usepackage{tikz}
+%\usetikzlibrary{shapes,snakes}
 \usepackage{hyperref}
 
 % Needs to be loaded after hyperref
 \usepackage{cleveref}
 
-\newcommand{\xset}{\mathbb{X}}
-\newcommand{\xseti}{\mathbb{X}^{(i)}}
-\newcommand{\approxdistri}{q_{\phi}(\textbf{z}|\xseti)}
-\newcommand{\approxdistr}{q_{\phi}(\textbf{z}|\xset)}
-\newcommand{\truedistr}{p_{\theta}(\textbf{z}|\xseti)}
-\newcommand{\elbo}{\mathcal{L}(\theta, \phi; \xseti)}
-\newcommand{\xsubset}{\mathbb{X}_k}
-\newcommand{\lmopoe}{\mathcal{L}_{MoPoE}(\theta, \phi; \xset)}
-\newcommand{\powerset}{\mathcal{P}(\xset)}
+\input{headers/common_header}
 
 % PythonTeX
 \usepackage[autoprint=false, gobble=auto, keeptemps=all, pyfuture=all]{pythontex} % create figures on-line directly from python!
