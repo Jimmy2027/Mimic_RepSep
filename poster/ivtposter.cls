@@ -112,7 +112,9 @@
   \usetikzlibrary{decorations}
 
   \usepackage{fontspec}
-  \setmainfont[BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic, Ligatures=TeX, Numbers=OldStyle]{Liberation Sans}
+%  Liberation Sans does not exist on OS X systems.
+%  \setmainfont[BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic, Ligatures=TeX, Numbers=OldStyle]{Liberation Sans}
+  \setmainfont[BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic, Ligatures=TeX, Numbers=OldStyle]{Arial}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Settings
