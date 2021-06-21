@@ -2,10 +2,13 @@
 
 TARGET="${1}"
 WHITELIST="
-poster/midl2021_poster.tex
+
+midl_2021/slides_midl2021.tex
+
 "
+#midl_2021/midl-shortpaper.tex
+#poster/midl2021_poster.tex
 #  article.tex
-#  slides.tex
 
 
 
@@ -26,7 +29,6 @@ else
     lualatex -shell-escape "${TARGET}.tex" || { echo "Second lualetex failed"; exit $ERRCODE; }
 
   else
-    exit 1
     pdflatex -shell-escape "${TARGET}.tex" || { echo "Initial pdflatex failed"; exit $ERRCODE; }
 
     #  Only execute pythontex if indicated in latex file
@@ -42,7 +44,10 @@ else
 
   fi
 
+  # move file to zotero
+  python upload.py "$(pwd)/$(basename "${TARGET}.pdf")"
 
+  # cleanup latex logs
   if [ ! -d tex_logs ]; then
       mkdir tex_logs
   fi
@@ -50,6 +55,6 @@ else
 	  mv $CLEAN_TARGET tex_logs/
   done
 
-#	python scripts/mv_article_pdf.py || exit 1
+
 fi
 
